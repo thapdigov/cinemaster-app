@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: cinemaster-app
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cinemaster-app
+    username: root
+    password: root1234
+
