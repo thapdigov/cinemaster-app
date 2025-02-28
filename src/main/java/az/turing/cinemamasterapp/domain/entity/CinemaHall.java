@@ -1,6 +1,7 @@
 package az.turing.cinemamasterapp.domain.entity;
 
 import az.turing.cinemamasterapp.model.enums.HallStatus;
+import az.turing.cinemamasterapp.model.enums.HallType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,7 +35,11 @@ public class CinemaHall extends BaseEntity {
     @Column(name = "capacity", nullable = false)
     private Integer capacity;
 
-    @Column(name = "genre", nullable = false)
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private HallType type;
+
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private HallStatus status;
 

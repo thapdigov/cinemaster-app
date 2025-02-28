@@ -47,6 +47,6 @@ public class Seat extends BaseEntity {
     private Ticket ticket;
 
     @ManyToOne
-    @JoinColumn(name = "cinema_id")
+    @JoinColumn(name = "cinema_id",referencedColumnName = "id")
     private CinemaHall cinemaHall;
 }

@@ -2,13 +2,12 @@ package az.turing.cinemamasterapp.domain.entity;
 
 import az.turing.cinemamasterapp.model.enums.PaymentMethod;
 import az.turing.cinemamasterapp.model.enums.TicketStatus;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,6 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @SuperBuilder
 @AllArgsConstructor
@@ -44,9 +42,11 @@ public class Ticket extends BaseEntity {
     private LocalDateTime purchaseDate;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TicketStatus ticketStatus;
 
     @Column(name = "paymentMethod", nullable = false)
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
     @ManyToOne
@@ -60,7 +60,4 @@ public class Ticket extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
     private Seat seat;
-
-    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ShowTime> showTimes;
 }

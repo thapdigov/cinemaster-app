@@ -1,5 +1,5 @@
 package az.turing.cinemamasterapp.model.enums;
 
-public enum SeatStatus {
-    AVAILABLE, BOOKED;
+public enum HallType {
+    IMAX, STANDARD, VIP;
 }

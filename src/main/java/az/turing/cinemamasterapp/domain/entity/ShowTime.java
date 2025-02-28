@@ -44,8 +44,4 @@ public class ShowTime extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "cinemhall_id", referencedColumnName = "id")
     private CinemaHall cinemaHall;
-
-    @ManyToOne
-    @JoinColumn(name = "ticket_id", referencedColumnName = "id")
-    private Ticket ticket;
 }

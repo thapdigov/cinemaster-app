@@ -1,6 +1,6 @@
 package az.turing.cinemamasterapp.domain.entity;
 
-import az.turing.cinemamasterapp.model.enums.Country;
+import az.turing.cinemamasterapp.model.enums.UserCountry;
 import az.turing.cinemamasterapp.model.enums.UserGender;
 import az.turing.cinemamasterapp.model.enums.UserRole;
 import az.turing.cinemamasterapp.model.enums.UserStatus;
@@ -62,7 +62,7 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "country", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Country country;
+    private UserCountry country;
 
     @Column(name = "userTicket", nullable = false)
     @OneToMany(mappedBy = "user",  cascade = CascadeType.ALL,fetch = FetchType.LAZY)
