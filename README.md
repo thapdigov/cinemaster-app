@@ -15,4 +15,4 @@ Technologies Used
     - Spring Fox (Swagger)
     - Slf4j
       
-Clone the Repository -> git clone https://github.com/thapdigov/ms-booking-app.git
+Clone the Repository -> https://github.com/thapdigov/cinemaster-app.git
