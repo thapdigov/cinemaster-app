@@ -30,4 +30,8 @@ public class MovieService {
         Movie movie = movieRepository.save(movieMapper.toEnt(request));
         return movieMapper.toDto(movie);
     }
+
+    public void deleteMovieById(long id) {
+        movieRepository.deleteById(id);
+    }
 }
