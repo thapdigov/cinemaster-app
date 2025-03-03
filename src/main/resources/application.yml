@@ -5,4 +5,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/cinemaster-app
     username: root
     password: root1234
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
 
