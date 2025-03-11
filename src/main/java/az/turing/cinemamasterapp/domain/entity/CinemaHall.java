@@ -20,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 @Entity
-@Table(name = "movie")
+@Table(name = "cinemahall")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
