@@ -3,6 +3,7 @@ package az.turing.cinemamasterapp.domain.entity;
 import az.turing.cinemamasterapp.model.enums.MovieGenre;
 import az.turing.cinemamasterapp.model.enums.MovieLanguage;
 import az.turing.cinemamasterapp.model.enums.MovieStatus;
+import az.turing.cinemamasterapp.model.enums.Status;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -48,7 +49,7 @@ public class Movie extends BaseEntity {
     private Integer duration;
 
     @Column(name = "release_date", nullable = false)
-    private LocalDate releaseDate;
+    private LocalDateTime releaseDate;
 
     @Column(name = "rating", nullable = false)
     private Double rating;
@@ -57,9 +58,13 @@ public class Movie extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MovieLanguage language;
 
+    @Column(name = "movie_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MovieStatus movieStatus;
+
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private MovieStatus status;
+    private Status status;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Ticket> tickets;

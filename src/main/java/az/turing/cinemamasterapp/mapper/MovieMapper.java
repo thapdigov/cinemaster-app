@@ -32,7 +32,7 @@ public class MovieMapper {
                 .releaseDate(movie.getReleaseDate())
                 .rating(movie.getRating())
                 .language(movie.getLanguage())
-                .status(movie.getStatus())
+                .status(movie.getMovieStatus())
                 .build();
     }
 }

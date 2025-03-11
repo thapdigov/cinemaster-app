@@ -1,5 +1,5 @@
 package az.turing.cinemamasterapp.model.enums;
 
 public enum MovieLanguage {
-    AZE,RUS,ENG,FRE,GER;
+    AZE,TUR,RUS,ENG,FRE,GER;
 }

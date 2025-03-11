@@ -7,7 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -18,7 +19,7 @@ public class MovieDto {
     private MovieGenre genre;
     private String director;
     private Integer duration;
-    private LocalDate releaseDate;
+    private LocalDateTime releaseDate;
     private Double rating;
     private MovieLanguage language;
     private MovieStatus status;
