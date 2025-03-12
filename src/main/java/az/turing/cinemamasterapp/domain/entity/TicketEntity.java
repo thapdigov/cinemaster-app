@@ -27,16 +27,13 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "ticket")
-public class Ticket extends BaseEntity {
+public class TicketEntity extends BaseEntity {
 
     @Column(name = "ticket_number", nullable = false, unique = true)
     private String ticketNumber;
 
     @Column(name = "price", nullable = false)
     private Integer price;
-
-    @Column(name = "showTime", nullable = false)
-    private LocalDateTime showTime;
 
     @Column(name = "purchaseDate", nullable = false)
     private LocalDateTime purchaseDate;

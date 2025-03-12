@@ -44,9 +44,9 @@ public class Seat extends BaseEntity {
     private SeatStatus status;
 
     @OneToOne(mappedBy = "seat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Ticket ticket;
+    private TicketEntity ticket;
 
     @ManyToOne
     @JoinColumn(name = "cinema_id",referencedColumnName = "id")
-    private CinemaHall cinemaHall;
+    private CinemaHallEntity cinemaHall;
 }

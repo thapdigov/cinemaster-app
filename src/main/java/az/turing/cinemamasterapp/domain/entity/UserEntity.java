@@ -66,5 +66,5 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "userTicket", nullable = false)
     @OneToMany(mappedBy = "user",  cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Ticket> userTickets;
+    private List<TicketEntity> userTickets;
 }
