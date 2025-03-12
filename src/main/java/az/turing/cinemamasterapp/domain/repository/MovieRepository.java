@@ -13,6 +13,7 @@ import java.util.Optional;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
     boolean existsByNameAndDescriptionAndDirector(String name, String description, String director);
+
     Optional<Movie> findByName(String movieName);
 
     @Query("SELECT m FROM Movie m WHERE m.releaseDate BETWEEN :now AND :nextDay")

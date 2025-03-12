@@ -27,7 +27,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
-public class CinemaHall extends BaseEntity {
+public class CinemaHallEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false)
     private String name;

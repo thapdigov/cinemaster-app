@@ -6,7 +6,7 @@ import az.turing.cinemamasterapp.model.dto.response.MovieDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MovieMapper {
+public class MovieMapper implements EntityMapper<Movie,MovieDto> {
 
     public Movie toEnt(CreateMovieRequest request) {
         return Movie.builder()
@@ -20,6 +20,11 @@ public class MovieMapper {
                 .language(request.getLanguage())
                 .status(request.getStatus())
                 .build();
+    }
+
+    @Override
+    public Movie toEnt(MovieDto movieDto) {
+        return null;
     }
 
     public MovieDto toDto(Movie movie) {
