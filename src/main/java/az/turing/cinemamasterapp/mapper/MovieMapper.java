@@ -6,7 +6,7 @@ import az.turing.cinemamasterapp.model.dto.response.MovieDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MovieMapper implements EntityMapper<Movie,MovieDto> {
+public class MovieMapper implements EntityMapper<Movie, MovieDto> {
 
     public Movie toEnt(CreateMovieRequest request) {
         return Movie.builder()
@@ -24,7 +24,18 @@ public class MovieMapper implements EntityMapper<Movie,MovieDto> {
 
     @Override
     public Movie toEnt(MovieDto movieDto) {
-        return null;
+        return Movie.builder()
+                .name(movieDto.getName())
+                .description(movieDto.getDescription())
+                .genre(movieDto.getGenre())
+                .director(movieDto.getDirector())
+                .duration(movieDto.getDuration())
+                .releaseDate(movieDto.getReleaseDate())
+                .rating(movieDto.getRating())
+                .language(movieDto.getLanguage())
+                .status(movieDto.getStatus())
+                .movieStatus(movieDto.getMovieStatus())
+                .build();
     }
 
     public MovieDto toDto(Movie movie) {
@@ -37,7 +48,8 @@ public class MovieMapper implements EntityMapper<Movie,MovieDto> {
                 .releaseDate(movie.getReleaseDate())
                 .rating(movie.getRating())
                 .language(movie.getLanguage())
-                .status(movie.getMovieStatus())
+                .status(movie.getStatus())
+                .movieStatus(movie.getMovieStatus())
                 .build();
     }
 }
