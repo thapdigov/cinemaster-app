@@ -40,8 +40,8 @@ public class Seat extends BaseEntity {
     private SeatType type;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private SeatStatus status;
+    @Column(name = "seat_status", nullable = false)
+    private SeatStatus seatStatus;
 
     @OneToOne(mappedBy = "seat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private TicketEntity ticket;

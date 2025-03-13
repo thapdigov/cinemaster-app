@@ -33,9 +33,9 @@ public class ShowTime extends BaseEntity {
     @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "showtime_status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private ShowTimeStatus status;
+    private ShowTimeStatus showTimeStatus;
 
     @ManyToOne
     @JoinColumn(name = "movie_id", referencedColumnName = "id")

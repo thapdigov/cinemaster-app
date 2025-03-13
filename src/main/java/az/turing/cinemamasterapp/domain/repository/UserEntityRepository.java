@@ -2,8 +2,12 @@ package az.turing.cinemamasterapp.domain.repository;
 
 import az.turing.cinemamasterapp.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
 
+    @Query("SELECT u FROM UserEntity u JOIN FETCH u.userTickets WHERE u.id = :id")
+    UserEntity findUserWithTickets(@Param("id") Long id);
 
 }

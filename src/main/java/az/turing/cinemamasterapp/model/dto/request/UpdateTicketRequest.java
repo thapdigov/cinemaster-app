@@ -25,7 +25,7 @@ public class UpdateTicketRequest {
     private String ticketNumber;
 
     @NotNull
-    private Integer price;
+    private Double price;
 
     @DateTimeFormat(fallbackPatterns = "dd/MM/yyyy HH:mm:ss, dd-MM-yyyy HH:mm:ss")
     private LocalDateTime purchaseDate;

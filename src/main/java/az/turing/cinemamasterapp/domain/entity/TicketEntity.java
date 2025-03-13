@@ -33,9 +33,9 @@ public class TicketEntity extends BaseEntity {
     private String ticketNumber;
 
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Double price;
 
-    @Column(name = "purchaseDate", nullable = false)
+    @Column(name = "purchase_date", nullable = false)
     private LocalDateTime purchaseDate;
 
     @Column(name = "ticket_status", nullable = false)

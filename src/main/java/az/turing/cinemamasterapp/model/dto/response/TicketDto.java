@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class TicketDto {
 
     private String ticketNumber;
 
-    private Integer price;
+    private Double price;
 
     private LocalDateTime purchaseDate;
 
