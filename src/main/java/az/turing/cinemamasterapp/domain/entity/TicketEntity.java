@@ -38,7 +38,7 @@ public class TicketEntity extends BaseEntity {
     @Column(name = "purchaseDate", nullable = false)
     private LocalDateTime purchaseDate;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "ticket_status", nullable = false)
     @Enumerated(EnumType.STRING)
     private TicketStatus ticketStatus;
 

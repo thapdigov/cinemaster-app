@@ -3,7 +3,6 @@ package az.turing.cinemamasterapp.domain.entity;
 import az.turing.cinemamasterapp.model.enums.MovieGenre;
 import az.turing.cinemamasterapp.model.enums.MovieLanguage;
 import az.turing.cinemamasterapp.model.enums.MovieStatus;
-import az.turing.cinemamasterapp.model.enums.Status;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -61,10 +60,6 @@ public class Movie extends BaseEntity {
     @Column(name = "movie_status", nullable = false)
     @Enumerated(EnumType.STRING)
     private MovieStatus movieStatus;
-
-    @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TicketEntity> tickets;

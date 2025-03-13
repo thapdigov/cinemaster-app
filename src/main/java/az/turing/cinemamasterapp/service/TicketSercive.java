@@ -12,7 +12,9 @@ import az.turing.cinemamasterapp.exception.AlreadyExistsException;
 import az.turing.cinemamasterapp.exception.NotFoundException;
 import az.turing.cinemamasterapp.mapper.TicketMapper;
 import az.turing.cinemamasterapp.model.dto.request.CreateTicketRequest;
+import az.turing.cinemamasterapp.model.dto.request.UpdateTicketRequest;
 import az.turing.cinemamasterapp.model.dto.response.TicketDto;
+import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,12 @@ public class TicketSercive {
 
     public List<TicketDto> findAll() {
         return repository.findAll().stream().map(ticketMapper::toDto).collect(Collectors.toList());
+    }
+
+    public List<TicketDto> findTicketByPrice(Integer price) {
+        return repository.findAll().stream()
+                .filter(ticket -> ticket.getPrice() <= price)
+                .map(ticketMapper::toDto).collect(Collectors.toList());
     }
 
     public TicketDto create(CreateTicketRequest request) {
@@ -58,5 +66,42 @@ public class TicketSercive {
         TicketEntity savedTicket = repository.save(ticket);
 
         return ticketMapper.toDto(savedTicket);
+    }
+
+    public TicketDto update(Long id, UpdateTicketRequest updateRequest) {
+
+        TicketEntity ticket = getTicketById(id);
+
+        Movie movie = movieRepository.findById(updateRequest.getMovieId())
+                .orElseThrow(() -> new NotFoundException("Movie not found with id:  " + updateRequest.getMovieId()));
+
+        UserEntity user = userRepository.findById(updateRequest.getMovieId())
+                .orElseThrow(() -> new NotFoundException("Movie not found with id: " + updateRequest.getMovieId()));
+
+        Seat seat = seatRepository.findById(updateRequest.getSeatId())
+                .orElseThrow(() -> new NotFoundException("Movie not found with id: " + updateRequest.getMovieId()));
+
+        ticket.setTicketNumber(updateRequest.getTicketNumber());
+        ticket.setPrice(updateRequest.getPrice());
+        ticket.setPurchaseDate(updateRequest.getPurchaseDate());
+        ticket.setTicketStatus(updateRequest.getTicketStatus());
+        ticket.setPaymentMethod(updateRequest.getPaymentMethod());
+        ticket.setUser(user);
+        ticket.setMovie(movie);
+        ticket.setSeat(seat);
+        TicketEntity updatedTicket = repository.save(ticket);
+
+        return ticketMapper.toDto(updatedTicket);
+    }
+
+    public void delete(Long id) {
+        TicketEntity ticket = getTicketById(id);
+        ticket.setStatus(Status.DELETE);
+    }
+
+    public TicketEntity getTicketById(long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Ticket not found with id" + id));
+
     }
 }
