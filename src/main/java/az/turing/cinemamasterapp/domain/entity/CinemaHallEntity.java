@@ -39,9 +39,9 @@ public class CinemaHallEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private HallType type;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "hall_status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private HallStatus status;
+    private HallStatus hallStatus;
 
     @OneToMany(mappedBy = "cinemaHall", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Seat> seats;

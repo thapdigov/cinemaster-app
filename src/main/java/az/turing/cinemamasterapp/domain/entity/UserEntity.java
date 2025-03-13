@@ -56,15 +56,15 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "user_status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private UserStatus userStatus;
 
     @Column(name = "country", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserCountry country;
 
-    @Column(name = "userTicket", nullable = false)
+    @Column(name = "user_ticket", nullable = false)
     @OneToMany(mappedBy = "user",  cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<TicketEntity> userTickets;
 }

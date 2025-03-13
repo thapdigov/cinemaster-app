@@ -27,7 +27,7 @@ public class CreateTicketRequest {
     private String ticketNumber;
 
     @NotNull
-    private Integer price;
+    private Double price;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
