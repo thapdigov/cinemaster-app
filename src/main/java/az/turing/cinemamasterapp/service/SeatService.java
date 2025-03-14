@@ -49,7 +49,7 @@ public class SeatService {
     }
 
     public SeatEntity findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("User not found with id:" + id));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Seat not found with id:" + id));
     }
 
     public void deleteUserById(Long id) {

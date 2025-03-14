@@ -49,10 +49,10 @@ public class TicketSercive {
                 .orElseThrow(() -> new NotFoundException("Movie not found with id: " + request.getMovieId()));
 
         UserEntity user = userRepository.findById(request.getMovieId())
-                .orElseThrow(() -> new NotFoundException("Movie not found with id: " + request.getMovieId()));
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + request.getMovieId()));
 
         SeatEntity seat = seatRepository.findById(request.getSeatId())
-                .orElseThrow(() -> new NotFoundException("Movie not found with id: " + request.getMovieId()));
+                .orElseThrow(() -> new NotFoundException("Seat not found with id: " + request.getMovieId()));
 
         TicketEntity ticket = new TicketEntity();
         ticket.setTicketNumber(request.getTicketNumber());
@@ -76,10 +76,10 @@ public class TicketSercive {
                 .orElseThrow(() -> new NotFoundException("Movie not found with id:  " + updateRequest.getMovieId()));
 
         UserEntity user = userRepository.findById(updateRequest.getMovieId())
-                .orElseThrow(() -> new NotFoundException("Movie not found with id: " + updateRequest.getMovieId()));
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + updateRequest.getMovieId()));
 
         SeatEntity seat = seatRepository.findById(updateRequest.getSeatId())
-                .orElseThrow(() -> new NotFoundException("Movie not found with id: " + updateRequest.getMovieId()));
+                .orElseThrow(() -> new NotFoundException("Seat not found with id: " + updateRequest.getMovieId()));
 
         ticket.setTicketNumber(updateRequest.getTicketNumber());
         ticket.setPrice(updateRequest.getPrice());
