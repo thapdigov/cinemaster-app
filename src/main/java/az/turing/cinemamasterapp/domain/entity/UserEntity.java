@@ -2,7 +2,6 @@ package az.turing.cinemamasterapp.domain.entity;
 
 import az.turing.cinemamasterapp.model.enums.UserCountry;
 import az.turing.cinemamasterapp.model.enums.UserGender;
-import az.turing.cinemamasterapp.model.enums.UserRole;
 import az.turing.cinemamasterapp.model.enums.UserStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -51,10 +50,6 @@ public class UserEntity extends BaseEntity {
     @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserGender gender;
-
-    @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
 
     @Column(name = "user_status", nullable = false)
     @Enumerated(EnumType.STRING)
