@@ -2,7 +2,9 @@ package az.turing.cinemamasterapp.mapper;
 
 import az.turing.cinemamasterapp.domain.entity.UserEntity;
 import az.turing.cinemamasterapp.model.dto.response.UserDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper implements EntityMapper<UserEntity, UserDto> {
     @Override
     public UserEntity toEnt(UserDto userDto) {
@@ -14,7 +16,7 @@ public class UserMapper implements EntityMapper<UserEntity, UserDto> {
                 .phoneNumber(userDto.getPhoneNumber())
                 .birthday(userDto.getBirthday())
                 .gender(userDto.getGender())
-                .role(userDto.getRole())
+                .status(userDto.getStatus())
                 .userStatus(userDto.getUserStatus())
                 .country(userDto.getCountry())
                 .build();
@@ -30,8 +32,8 @@ public class UserMapper implements EntityMapper<UserEntity, UserDto> {
                 .phoneNumber(userEntity.getPhoneNumber())
                 .birthday(userEntity.getBirthday())
                 .gender(userEntity.getGender())
-                .role(userEntity.getRole())
                 .userStatus(userEntity.getUserStatus())
+                .status(userEntity.getStatus())
                 .country(userEntity.getCountry())
                 .build();
     }

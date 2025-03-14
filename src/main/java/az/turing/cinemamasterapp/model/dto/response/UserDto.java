@@ -1,8 +1,8 @@
 package az.turing.cinemamasterapp.model.dto.response;
 
+import az.turing.cinemamasterapp.model.enums.Status;
 import az.turing.cinemamasterapp.model.enums.UserCountry;
 import az.turing.cinemamasterapp.model.enums.UserGender;
-import az.turing.cinemamasterapp.model.enums.UserRole;
 import az.turing.cinemamasterapp.model.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,9 +31,9 @@ public class UserDto {
 
     private UserGender gender;
 
-    private UserRole role;
-
     private UserStatus userStatus;
+
+    private Status status;
 
     private UserCountry country;
 }
