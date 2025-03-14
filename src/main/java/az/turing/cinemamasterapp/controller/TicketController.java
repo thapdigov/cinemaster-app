@@ -52,6 +52,4 @@ public class TicketController {
         ticketSercive.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }

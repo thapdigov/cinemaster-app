@@ -56,5 +56,5 @@ public class TicketEntity extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
-    private Seat seat;
+    private SeatEntity seat;
 }

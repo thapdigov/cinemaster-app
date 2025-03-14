@@ -1,7 +1,7 @@
 package az.turing.cinemamasterapp.service;
 
 import az.turing.cinemamasterapp.domain.entity.Movie;
-import az.turing.cinemamasterapp.domain.entity.Seat;
+import az.turing.cinemamasterapp.domain.entity.SeatEntity;
 import az.turing.cinemamasterapp.domain.entity.TicketEntity;
 import az.turing.cinemamasterapp.domain.entity.UserEntity;
 import az.turing.cinemamasterapp.domain.repository.MovieRepository;
@@ -51,7 +51,7 @@ public class TicketSercive {
         UserEntity user = userRepository.findById(request.getMovieId())
                 .orElseThrow(() -> new NotFoundException("Movie not found with id: " + request.getMovieId()));
 
-        Seat seat = seatRepository.findById(request.getSeatId())
+        SeatEntity seat = seatRepository.findById(request.getSeatId())
                 .orElseThrow(() -> new NotFoundException("Movie not found with id: " + request.getMovieId()));
 
         TicketEntity ticket = new TicketEntity();
@@ -78,7 +78,7 @@ public class TicketSercive {
         UserEntity user = userRepository.findById(updateRequest.getMovieId())
                 .orElseThrow(() -> new NotFoundException("Movie not found with id: " + updateRequest.getMovieId()));
 
-        Seat seat = seatRepository.findById(updateRequest.getSeatId())
+        SeatEntity seat = seatRepository.findById(updateRequest.getSeatId())
                 .orElseThrow(() -> new NotFoundException("Movie not found with id: " + updateRequest.getMovieId()));
 
         ticket.setTicketNumber(updateRequest.getTicketNumber());

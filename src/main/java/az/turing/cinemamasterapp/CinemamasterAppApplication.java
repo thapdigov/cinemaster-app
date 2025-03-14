@@ -8,6 +8,5 @@ public class CinemamasterAppApplication {
     public static void main(String[] args) {
         SpringApplication.run(CinemamasterAppApplication.class, args);
 
-
     }
 }
