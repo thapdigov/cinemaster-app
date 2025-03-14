@@ -44,7 +44,7 @@ public class CinemaHallEntity extends BaseEntity {
     private HallStatus hallStatus;
 
     @OneToMany(mappedBy = "cinemaHall", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Seat> seats;
+    private List<SeatEntity> seats;
 
     @OneToMany(mappedBy = "cinemaHall", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ShowTime> showTimes;

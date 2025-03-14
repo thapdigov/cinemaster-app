@@ -1,7 +1,7 @@
 package az.turing.cinemamasterapp.service;
 
 import az.turing.cinemamasterapp.domain.entity.Movie;
-import az.turing.cinemamasterapp.domain.entity.Seat;
+import az.turing.cinemamasterapp.domain.entity.SeatEntity;
 import az.turing.cinemamasterapp.domain.entity.TicketEntity;
 import az.turing.cinemamasterapp.domain.entity.UserEntity;
 import az.turing.cinemamasterapp.domain.repository.MovieRepository;
@@ -49,10 +49,10 @@ public class TicketSercive {
                 .orElseThrow(() -> new NotFoundException("Movie not found with id: " + request.getMovieId()));
 
         UserEntity user = userRepository.findById(request.getMovieId())
-                .orElseThrow(() -> new NotFoundException("Movie not found with id: " + request.getMovieId()));
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + request.getMovieId()));
 
-        Seat seat = seatRepository.findById(request.getSeatId())
-                .orElseThrow(() -> new NotFoundException("Movie not found with id: " + request.getMovieId()));
+        SeatEntity seat = seatRepository.findById(request.getSeatId())
+                .orElseThrow(() -> new NotFoundException("Seat not found with id: " + request.getMovieId()));
 
         TicketEntity ticket = new TicketEntity();
         ticket.setTicketNumber(request.getTicketNumber());
@@ -76,10 +76,10 @@ public class TicketSercive {
                 .orElseThrow(() -> new NotFoundException("Movie not found with id:  " + updateRequest.getMovieId()));
 
         UserEntity user = userRepository.findById(updateRequest.getMovieId())
-                .orElseThrow(() -> new NotFoundException("Movie not found with id: " + updateRequest.getMovieId()));
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + updateRequest.getMovieId()));
 
-        Seat seat = seatRepository.findById(updateRequest.getSeatId())
-                .orElseThrow(() -> new NotFoundException("Movie not found with id: " + updateRequest.getMovieId()));
+        SeatEntity seat = seatRepository.findById(updateRequest.getSeatId())
+                .orElseThrow(() -> new NotFoundException("Seat not found with id: " + updateRequest.getMovieId()));
 
         ticket.setTicketNumber(updateRequest.getTicketNumber());
         ticket.setPrice(updateRequest.getPrice());

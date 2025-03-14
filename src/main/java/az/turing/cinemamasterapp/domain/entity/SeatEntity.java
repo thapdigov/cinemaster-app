@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
-public class Seat extends BaseEntity {
+public class SeatEntity extends BaseEntity {
 
     @Column(name = "row", nullable = false)
     private String row;
@@ -47,6 +47,6 @@ public class Seat extends BaseEntity {
     private TicketEntity ticket;
 
     @ManyToOne
-    @JoinColumn(name = "cinema_id",referencedColumnName = "id")
+    @JoinColumn(name = "cinema_id", referencedColumnName = "id")
     private CinemaHallEntity cinemaHall;
 }

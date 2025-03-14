@@ -64,6 +64,4 @@ public class MovieController {
     public ResponseEntity<MovieDto> update(@PathVariable @Min(1) Long id, @RequestBody UpdateMovieRequest request) {
         return ResponseEntity.ok(movieService.updateMovie(id, request));
     }
-
-
 }
