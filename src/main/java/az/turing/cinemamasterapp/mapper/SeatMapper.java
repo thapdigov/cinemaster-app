@@ -2,7 +2,9 @@ package az.turing.cinemamasterapp.mapper;
 
 import az.turing.cinemamasterapp.domain.entity.SeatEntity;
 import az.turing.cinemamasterapp.model.dto.response.SeatDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SeatMapper implements EntityMapper<SeatEntity, SeatDto> {
     @Override
     public SeatEntity toEnt(SeatDto seatDto) {
