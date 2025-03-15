@@ -33,5 +33,5 @@ public class UpdateSeatRequest {
 
     @Min(1)
     @NotNull
-    private Long id;
+    private Long hallId;
 }

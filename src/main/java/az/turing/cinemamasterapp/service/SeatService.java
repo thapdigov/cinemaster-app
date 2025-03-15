@@ -57,8 +57,8 @@ public class SeatService {
 
     public SeatDto updateSeatById(Long id, UpdateSeatRequest request) {
 
-        CinemaHallEntity cinemaHall = hallRepository.findById(request.getId())
-                .orElseThrow(() -> new NotFoundException("CinemaHall not found with id: " + request.getId()));
+        CinemaHallEntity cinemaHall = hallRepository.findById(request.getHallId())
+                .orElseThrow(() -> new NotFoundException("CinemaHall not found with id: " + request.getHallId()));
 
         SeatEntity seat = findById(id);
         seat.setRow(request.getRow());
@@ -75,7 +75,7 @@ public class SeatService {
         return repository.findById(id).orElseThrow(() -> new NotFoundException("Seat not found with id:" + id));
     }
 
-    public void deleteUserById(Long id) {
+    public void deleteSeatById(Long id) {
         //soft delete
         SeatEntity seatEntity = findById(id);
         seatEntity.setStatus(Status.DELETE);
