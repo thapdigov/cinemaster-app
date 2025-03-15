@@ -30,7 +30,7 @@ public class SeatController {
 
     @GetMapping("all")
     public ResponseEntity<List<SeatDto>> getAll() {
-        return ResponseEntity.ok(seatService.findAllSeat());
+        return ResponseEntity.ok(seatService.findAll());
     }
 
     @GetMapping("/seat/{id}")

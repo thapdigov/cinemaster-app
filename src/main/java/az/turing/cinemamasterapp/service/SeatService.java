@@ -24,7 +24,7 @@ public class SeatService {
     private final CinemaHallRepository hallRepository;
     private final SeatMapper seatMapper;
 
-    public List<SeatDto> findAllSeat() {
+    public List<SeatDto> findAll() {
         return repository.findAll().stream().map(seatMapper::toDto).collect(Collectors.toList());
     }
 
@@ -46,6 +46,7 @@ public class SeatService {
         seat.setSeatNumber(request.getSeatNumber());
         seat.setType(request.getType());
         seat.setSeatStatus(request.getSeatStatus());
+        seat.setStatus(request.getStatus());
         seat.setSeatNumber(request.getSeatNumber());
         seat.setCinemaHall(cinemaHall);
 
@@ -64,6 +65,7 @@ public class SeatService {
         seat.setRow(request.getRow());
         seat.setSeatNumber(request.getSeatNumber());
         seat.setSeatStatus(request.getSeatStatus());
+        seat.setStatus(request.getStatus());
         seat.setType(request.getType());
         seat.setCinemaHall(cinemaHall);
         SeatEntity updatedSeat = repository.save(seat);
