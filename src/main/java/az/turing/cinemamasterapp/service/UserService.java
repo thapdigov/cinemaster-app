@@ -22,7 +22,7 @@ public class UserService {
     private final UserEntityRepository entityRepository;
     private final UserMapper userMapper;
 
-    public List<UserDto> findAllUser() {
+    public List<UserDto> findAll() {
         return entityRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 

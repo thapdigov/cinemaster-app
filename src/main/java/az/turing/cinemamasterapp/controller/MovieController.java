@@ -44,7 +44,8 @@ public class MovieController {
     }
 
     @GetMapping("/last24h{now}/{nextDay}")
-    public ResponseEntity<List<MovieDto>> getByLastHours(@PathVariable LocalDateTime now, @PathVariable LocalDateTime nextDay) {
+    public ResponseEntity<List<MovieDto>> getByLastHours(@PathVariable LocalDateTime now,
+                                                         @PathVariable LocalDateTime nextDay) {
         return ResponseEntity.ok(movieService.getMovieLast24Hours(now, nextDay));
     }
 
