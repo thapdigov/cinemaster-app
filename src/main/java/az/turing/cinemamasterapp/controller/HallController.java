@@ -1,6 +1,8 @@
 package az.turing.cinemamasterapp.controller;
 
+import az.turing.cinemamasterapp.model.dto.request.CreateHallRequest;
 import az.turing.cinemamasterapp.model.dto.response.HallDto;
+import az.turing.cinemamasterapp.model.dto.response.SeatDto;
 import az.turing.cinemamasterapp.service.HallService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -10,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,10 +44,10 @@ public class HallController {
         return ResponseEntity.noContent().build();
     }
 
-//    @PostMapping
-//    public ResponseEntity<SeatDto> create(@RequestBody CreateSeatRequest request) {
-//        return ResponseEntity.ok(seatService.createSeat(request));
-//    }
+    @PostMapping
+    public ResponseEntity<HallDto> create(@RequestBody CreateHallRequest request) {
+        return ResponseEntity.ok(hallService.createHall(request));
+    }
 //
 //    @PutMapping("/{id}")
 //    public ResponseEntity<SeatDto> create(@PathVariable @NotNull @Min(1) Long id,

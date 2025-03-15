@@ -4,6 +4,7 @@ import az.turing.cinemamasterapp.domain.entity.CinemaHallEntity;
 import az.turing.cinemamasterapp.domain.repository.CinemaHallRepository;
 import az.turing.cinemamasterapp.exception.NotFoundException;
 import az.turing.cinemamasterapp.mapper.HallMapper;
+import az.turing.cinemamasterapp.model.dto.request.CreateHallRequest;
 import az.turing.cinemamasterapp.model.dto.response.HallDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,9 @@ public class HallService {
     public CinemaHallEntity findById(Long id) {
         return hallRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("CinemaHall not found with id: " + id));
+    }
+
+    public HallDto createHall(CreateHallRequest request) {
+        return null;
     }
 }
