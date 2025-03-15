@@ -1,19 +1,14 @@
 package az.turing.cinemamasterapp.service;
 
+import az.turing.cinemamasterapp.domain.entity.CinemaHallEntity;
 import az.turing.cinemamasterapp.domain.entity.SeatEntity;
-import az.turing.cinemamasterapp.domain.entity.UserEntity;
+import az.turing.cinemamasterapp.domain.repository.CinemaHallRepository;
 import az.turing.cinemamasterapp.domain.repository.SeatRepository;
-import az.turing.cinemamasterapp.domain.repository.UserEntityRepository;
-import az.turing.cinemamasterapp.exception.InvalidPasswordConfirmationException;
 import az.turing.cinemamasterapp.exception.NotFoundException;
 import az.turing.cinemamasterapp.mapper.SeatMapper;
-import az.turing.cinemamasterapp.mapper.UserMapper;
 import az.turing.cinemamasterapp.model.dto.request.CreateSeatRequest;
-import az.turing.cinemamasterapp.model.dto.request.CreateUserRequest;
 import az.turing.cinemamasterapp.model.dto.request.UpdateSeatRequest;
-import az.turing.cinemamasterapp.model.dto.request.UpdateUserRequest;
 import az.turing.cinemamasterapp.model.dto.response.SeatDto;
-import az.turing.cinemamasterapp.model.dto.response.UserDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +21,7 @@ import java.util.stream.Collectors;
 public class SeatService {
 
     private final SeatRepository repository;
+    private final CinemaHallRepository hallRepository;
     private final SeatMapper seatMapper;
 
     public List<SeatDto> findAllSeat() {
@@ -40,12 +36,39 @@ public class SeatService {
 
 
     public SeatDto createSeat(CreateSeatRequest request) {
-        return seatMapper.toDto(null);
+
+        SeatEntity seat = new SeatEntity();
+
+        CinemaHallEntity cinemaHall = hallRepository.findById(request.getHallId())
+                .orElseThrow(() -> new NotFoundException("CinemaHall not found with id: " + request.getHallId()));
+
+        seat.setRow(request.getRow());
+        seat.setSeatNumber(request.getSeatNumber());
+        seat.setType(request.getType());
+        seat.setSeatStatus(request.getSeatStatus());
+        seat.setSeatNumber(request.getSeatNumber());
+        seat.setCinemaHall(cinemaHall);
+
+        SeatEntity savedSeat = repository.save(seat);
+
+        return seatMapper.toDto(savedSeat);
     }
 
 
     public SeatDto updateSeatById(Long id, UpdateSeatRequest request) {
-        return seatMapper.toDto(null);
+
+        CinemaHallEntity cinemaHall = hallRepository.findById(request.getId())
+                .orElseThrow(() -> new NotFoundException("CinemaHall not found with id: " + request.getId()));
+
+        SeatEntity seat = findById(id);
+        seat.setRow(request.getRow());
+        seat.setSeatNumber(request.getSeatNumber());
+        seat.setSeatStatus(request.getSeatStatus());
+        seat.setType(request.getType());
+        seat.setCinemaHall(cinemaHall);
+        SeatEntity updatedSeat = repository.save(seat);
+
+        return seatMapper.toDto(updatedSeat);
     }
 
     public SeatEntity findById(Long id) {

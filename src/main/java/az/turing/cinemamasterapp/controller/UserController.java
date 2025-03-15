@@ -6,6 +6,7 @@ import az.turing.cinemamasterapp.model.dto.response.UserDto;
 import az.turing.cinemamasterapp.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -43,7 +44,7 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UserDto> update(@PathVariable @Min(1) Long id,
+    public ResponseEntity<UserDto> update(@PathVariable @NotNull @Min(1) Long id,
                                           @Validated @RequestBody UpdateUserRequest request) {
         return ResponseEntity.ok(userService.updateUserById(id, request));
     }

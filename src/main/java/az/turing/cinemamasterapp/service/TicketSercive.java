@@ -55,6 +55,7 @@ public class TicketSercive {
                 .orElseThrow(() -> new NotFoundException("Seat not found with id: " + request.getMovieId()));
 
         TicketEntity ticket = new TicketEntity();
+
         ticket.setTicketNumber(request.getTicketNumber());
         ticket.setPrice(request.getPrice());
         ticket.setPurchaseDate(request.getPurchaseDate());
