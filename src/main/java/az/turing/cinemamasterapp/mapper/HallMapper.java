@@ -2,7 +2,9 @@ package az.turing.cinemamasterapp.mapper;
 
 import az.turing.cinemamasterapp.domain.entity.CinemaHallEntity;
 import az.turing.cinemamasterapp.model.dto.response.HallDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HallMapper implements EntityMapper<CinemaHallEntity, HallDto> {
     @Override
     public CinemaHallEntity toEnt(HallDto hallDto) {

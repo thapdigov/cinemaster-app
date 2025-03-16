@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface CinemaHallRepository extends JpaRepository<CinemaHallEntity, Long> {
 
     Optional<CinemaHallEntity> findByName(String name);
+
+    boolean existsByName(String name);
 }

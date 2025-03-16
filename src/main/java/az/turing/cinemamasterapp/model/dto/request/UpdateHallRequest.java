@@ -16,8 +16,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class CreateHallRequest {
-
+public class UpdateHallRequest {
     @NotBlank
     private String name;
 
