@@ -1,9 +1,24 @@
+#version: '3'
+#
 #services:
-#  postgres:
-#    image: 'postgres:latest'
-#    environment:
-#      - 'POSTGRES_DB=mydatabase'
-#      - 'POSTGRES_PASSWORD=secret'
-#      - 'POSTGRES_USER=myuser'
+#  app:
+#    image: yourusername/cinemaster-app
 #    ports:
-#      - '5432'
+#      - "8080:8080"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/cinemaster-app
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: root1234
+#    depends_on:
+#      - db
+#
+#  db:
+#    image: postgres:latest
+#    container_name: postgres_db
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: cinemaster-app
+#    ports:
+#      - "5432:5432"
+

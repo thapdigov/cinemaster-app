@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("v1/users")
 @RequiredArgsConstructor
-@Valid
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -40,13 +40,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> create(@Validated @RequestBody CreateUserRequest request) {
+    public ResponseEntity<UserDto> create(@Valid @RequestBody CreateUserRequest request) {
         return ResponseEntity.ok(userService.createUser(request));
     }
 
     @PutMapping("{id}")
     public ResponseEntity<UserDto> update(@PathVariable @NotNull @Min(1) Long id,
-                                          @Validated @RequestBody UpdateUserRequest request) {
+                                          @Valid @RequestBody UpdateUserRequest request) {
         return ResponseEntity.ok(userService.updateUserById(id, request));
     }
 
