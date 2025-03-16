@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Valid
+@Validated
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("v1/halls")
@@ -28,7 +29,7 @@ public class HallController {
 
     private final HallService hallService;
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public ResponseEntity<List<HallDto>> getAll() {
         return ResponseEntity.ok(hallService.findAll());
     }
@@ -40,13 +41,13 @@ public class HallController {
 
 
     @PostMapping
-    public ResponseEntity<HallDto> create(@RequestBody CreateHallRequest request) {
+    public ResponseEntity<HallDto> create(@RequestBody @Valid CreateHallRequest request) {
         return ResponseEntity.ok(hallService.createHall(request));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<HallDto> update(@PathVariable @NotNull @Min(1) Long id,
-                                          @RequestBody UpdateHallRequest request) {
+                                          @RequestBody @Valid UpdateHallRequest request) {
         return ResponseEntity.ok(hallService.update(id, request));
     }
 

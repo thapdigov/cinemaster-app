@@ -1,15 +1,15 @@
 package az.turing.cinemamasterapp.mapper;
 
-import az.turing.cinemamasterapp.domain.entity.Movie;
+import az.turing.cinemamasterapp.domain.entity.MovieEntity;
 import az.turing.cinemamasterapp.model.dto.request.CreateMovieRequest;
 import az.turing.cinemamasterapp.model.dto.response.MovieDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MovieMapper implements EntityMapper<Movie, MovieDto> {
+public class MovieMapper implements EntityMapper<MovieEntity, MovieDto> {
 
-    public Movie toEnt(CreateMovieRequest request) {
-        return Movie.builder()
+    public MovieEntity toEnt(CreateMovieRequest request) {
+        return MovieEntity.builder()
                 .name(request.getName())
                 .description(request.getDescription())
                 .genre(request.getGenre())
@@ -22,11 +22,9 @@ public class MovieMapper implements EntityMapper<Movie, MovieDto> {
                 .build();
     }
 
-
-
     @Override
-    public Movie toEnt(MovieDto movieDto) {
-        return Movie.builder()
+    public MovieEntity toEnt(MovieDto movieDto) {
+        return MovieEntity.builder()
                 .name(movieDto.getName())
                 .description(movieDto.getDescription())
                 .genre(movieDto.getGenre())
@@ -40,7 +38,7 @@ public class MovieMapper implements EntityMapper<Movie, MovieDto> {
                 .build();
     }
 
-    public MovieDto toDto(Movie movie) {
+    public MovieDto toDto(MovieEntity movie) {
         return MovieDto.builder()
                 .name(movie.getName())
                 .description(movie.getDescription())

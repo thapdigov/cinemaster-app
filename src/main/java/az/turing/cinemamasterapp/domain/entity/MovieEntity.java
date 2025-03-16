@@ -29,7 +29,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
-public class Movie extends BaseEntity {
+public class MovieEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -65,5 +65,5 @@ public class Movie extends BaseEntity {
     private List<TicketEntity> tickets;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ShowTime> showTimes;
+    private List<ShowTimeEntity> showTimes;
 }

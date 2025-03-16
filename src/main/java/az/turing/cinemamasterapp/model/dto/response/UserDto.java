@@ -4,6 +4,7 @@ import az.turing.cinemamasterapp.model.enums.Status;
 import az.turing.cinemamasterapp.model.enums.UserCountry;
 import az.turing.cinemamasterapp.model.enums.UserGender;
 import az.turing.cinemamasterapp.model.enums.UserStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class UserDto {
 
     private String phoneNumber;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthday;
 
     private UserGender gender;

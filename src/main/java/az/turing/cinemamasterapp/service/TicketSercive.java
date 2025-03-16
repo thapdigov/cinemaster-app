@@ -1,6 +1,6 @@
 package az.turing.cinemamasterapp.service;
 
-import az.turing.cinemamasterapp.domain.entity.Movie;
+import az.turing.cinemamasterapp.domain.entity.MovieEntity;
 import az.turing.cinemamasterapp.domain.entity.SeatEntity;
 import az.turing.cinemamasterapp.domain.entity.TicketEntity;
 import az.turing.cinemamasterapp.domain.entity.UserEntity;
@@ -45,7 +45,7 @@ public class TicketSercive {
         if (repository.existsByTicketNumber(request.getTicketNumber())) {
             throw new AlreadyExistsException("Ticket has already exists with " + request.getTicketNumber());
         }
-        Movie movie = movieRepository.findById(request.getMovieId())
+        MovieEntity movie = movieRepository.findById(request.getMovieId())
                 .orElseThrow(() -> new NotFoundException("Movie not found with id: " + request.getMovieId()));
 
         UserEntity user = userRepository.findById(request.getMovieId())
@@ -73,7 +73,7 @@ public class TicketSercive {
 
         TicketEntity ticket = getTicketById(id);
 
-        Movie movie = movieRepository.findById(updateRequest.getMovieId())
+        MovieEntity movie = movieRepository.findById(updateRequest.getMovieId())
                 .orElseThrow(() -> new NotFoundException("Movie not found with id:  " + updateRequest.getMovieId()));
 
         UserEntity user = userRepository.findById(updateRequest.getMovieId())
