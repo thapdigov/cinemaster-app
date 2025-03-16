@@ -1,6 +1,6 @@
 package az.turing.cinemamasterapp.service;
 
-import az.turing.cinemamasterapp.domain.entity.Movie;
+import az.turing.cinemamasterapp.domain.entity.MovieEntity;
 import az.turing.cinemamasterapp.domain.repository.MovieRepository;
 import az.turing.cinemamasterapp.exception.AlreadyExistsException;
 import az.turing.cinemamasterapp.exception.NotFoundException;
@@ -53,18 +53,18 @@ public class MovieService {
             throw new AlreadyExistsException("The Movie already is exists!!");
         }
 
-        Movie savedMovie = movieRepository.save(movieMapper.toEnt(request));
+        MovieEntity savedMovie = movieRepository.save(movieMapper.toEnt(request));
         return movieMapper.toDto(savedMovie);
     }
 
 
     public void deleteMovieById(long id) {
-        Movie deletedMovie = findById(id);
+        MovieEntity deletedMovie = findById(id);
         deletedMovie.setStatus(Status.DELETE);
     }
 
     public MovieDto updateMovie(Long id, UpdateMovieRequest request) {
-        Movie movie = findById(id);
+        MovieEntity movie = findById(id);
         movie.setName(request.getName());
         movie.setDescription(request.getDescription());
         movie.setGenre(request.getGenre());
@@ -75,11 +75,11 @@ public class MovieService {
         movie.setLanguage(request.getLanguage());
         movie.setMovieStatus(request.getMovieStatus());
         movie.setStatus(request.getStatus());
-        Movie updatedMovie = movieRepository.save(movie);
+        MovieEntity updatedMovie = movieRepository.save(movie);
         return movieMapper.toDto(updatedMovie);
     }
 
-    public Movie findById(long id) {
+    public MovieEntity findById(long id) {
         return movieRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Movie not found with " + id));
     }

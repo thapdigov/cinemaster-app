@@ -52,7 +52,7 @@ public class TicketEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    private Movie movie;
+    private MovieEntity movie;
 
     @OneToOne
     @JoinColumn(name = "seat_id", referencedColumnName = "id")

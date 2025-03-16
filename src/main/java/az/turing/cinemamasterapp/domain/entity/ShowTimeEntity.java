@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
-public class ShowTime extends BaseEntity {
+public class ShowTimeEntity extends BaseEntity {
 
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
@@ -39,7 +39,7 @@ public class ShowTime extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    private Movie movie;
+    private MovieEntity movie;
 
     @ManyToOne
     @JoinColumn(name = "cinemhall_id", referencedColumnName = "id")
