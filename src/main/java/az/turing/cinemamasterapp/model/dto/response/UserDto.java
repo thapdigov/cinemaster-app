@@ -28,7 +28,8 @@ public class UserDto {
 
     private String phoneNumber;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+
+    @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
     private LocalDate birthday;
 
     private UserGender gender;

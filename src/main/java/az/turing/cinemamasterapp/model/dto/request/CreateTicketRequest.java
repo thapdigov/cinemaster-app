@@ -30,7 +30,6 @@ public class CreateTicketRequest {
     private Double price;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
     private LocalDateTime purchaseDate;
 
     @Enumerated(EnumType.STRING)
