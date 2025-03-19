@@ -6,9 +6,9 @@ The system includes entities for users, movies, cinema halls, show times, seats,
 
 Technologies Used
 - Java 11, Gradle
-    - Spring Boot -> Web, AOP, Security(JWT), Data JPA, Test, Validation
+    - Spring Boot -> Web, AOP,Data JPA, Test, Validation
     - Postgres db
-    - Liquibase as db migration tool
+    - //Liquibase as db migration tool
     - DockerFile, Docker Compose
     - Project Lombok
     - MapStruct
