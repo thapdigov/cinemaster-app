@@ -43,7 +43,7 @@ public class UpdateTicketRequest {
     private Long userId;
 
     @NotNull
-    private Long movieId;
+    private Long showTimeId;
 
     @NotNull
     private Long seatId;

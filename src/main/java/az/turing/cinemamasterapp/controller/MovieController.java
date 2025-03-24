@@ -3,10 +3,13 @@ package az.turing.cinemamasterapp.controller;
 import az.turing.cinemamasterapp.model.dto.request.CreateMovieRequest;
 import az.turing.cinemamasterapp.model.dto.request.UpdateMovieRequest;
 import az.turing.cinemamasterapp.model.dto.response.MovieDto;
+import az.turing.cinemamasterapp.model.enums.MovieGenre;
+import az.turing.cinemamasterapp.model.enums.MovieLanguage;
 import az.turing.cinemamasterapp.service.MovieService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,9 +31,14 @@ import java.util.List;
 public class MovieController {
     private final MovieService movieService;
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public ResponseEntity<List<MovieDto>> getAll() {
         return ResponseEntity.ok(movieService.findAll());
+    }
+
+    @GetMapping("/allByLanguage")
+    public ResponseEntity<List<MovieDto>> getAllByLanguage(@PathVariable MovieLanguage allByLanguage) {
+        return ResponseEntity.ok(movieService.getMovieByLanguage(allByLanguage));
     }
 
     @GetMapping("{id}")
@@ -43,9 +51,20 @@ public class MovieController {
         return ResponseEntity.ok(movieService.findMovieByName(movieName));
     }
 
-    @GetMapping("/last24h{now}/{nextDay}")
-    public ResponseEntity<List<MovieDto>> getByLastHours(@PathVariable LocalDateTime now,
-                                                         @PathVariable LocalDateTime nextDay) {
+    @GetMapping("/moviedirector/{movieDirector}")
+    public ResponseEntity<MovieDto> getByDirector(@PathVariable String movieDirector) {
+        return ResponseEntity.ok(movieService.findMovieByDirector(movieDirector));
+    }
+
+    @GetMapping("/moviegenre/{movieGenre}")
+    public ResponseEntity<MovieDto> getByGenre(@PathVariable MovieGenre movieGenre) {
+        return ResponseEntity.ok(movieService.findMovieByGenre(movieGenre));
+    }
+
+    @GetMapping("/last24h/{now}/{nextDay}")
+    public ResponseEntity<List<MovieDto>> getByLastHours(
+            @PathVariable @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime now,
+            @PathVariable @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime nextDay) {
         return ResponseEntity.ok(movieService.getMovieLast24Hours(now, nextDay));
     }
 

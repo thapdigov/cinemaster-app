@@ -51,8 +51,8 @@ public class TicketEntity extends BaseEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    private MovieEntity movie;
+    @JoinColumn(name = "showtime_id", referencedColumnName = "id")
+    private ShowTimeEntity showTime;
 
     @OneToOne
     @JoinColumn(name = "seat_id", referencedColumnName = "id")

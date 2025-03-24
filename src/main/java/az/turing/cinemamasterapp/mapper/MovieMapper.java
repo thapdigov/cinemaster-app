@@ -19,6 +19,7 @@ public class MovieMapper implements EntityMapper<MovieEntity, MovieDto> {
                 .rating(request.getRating())
                 .language(request.getLanguage())
                 .status(request.getStatus())
+                .movieStatus(request.getMovieStatus())
                 .build();
     }
 

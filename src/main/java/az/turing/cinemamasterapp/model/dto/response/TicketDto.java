@@ -2,6 +2,7 @@ package az.turing.cinemamasterapp.model.dto.response;
 
 import az.turing.cinemamasterapp.domain.entity.MovieEntity;
 import az.turing.cinemamasterapp.domain.entity.SeatEntity;
+import az.turing.cinemamasterapp.domain.entity.ShowTimeEntity;
 import az.turing.cinemamasterapp.domain.entity.UserEntity;
 import az.turing.cinemamasterapp.model.enums.PaymentMethod;
 import az.turing.cinemamasterapp.model.enums.TicketStatus;
@@ -32,7 +33,7 @@ public class TicketDto {
 
     private UserEntity user;
 
-    private MovieEntity movie;
+    private ShowTimeEntity showTime;
 
     private SeatEntity seat;
 }

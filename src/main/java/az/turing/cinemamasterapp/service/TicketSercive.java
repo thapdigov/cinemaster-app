@@ -1,11 +1,11 @@
 package az.turing.cinemamasterapp.service;
 
-import az.turing.cinemamasterapp.domain.entity.MovieEntity;
 import az.turing.cinemamasterapp.domain.entity.SeatEntity;
+import az.turing.cinemamasterapp.domain.entity.ShowTimeEntity;
 import az.turing.cinemamasterapp.domain.entity.TicketEntity;
 import az.turing.cinemamasterapp.domain.entity.UserEntity;
-import az.turing.cinemamasterapp.domain.repository.MovieRepository;
 import az.turing.cinemamasterapp.domain.repository.SeatRepository;
+import az.turing.cinemamasterapp.domain.repository.ShowTimeRepository;
 import az.turing.cinemamasterapp.domain.repository.TicketRepository;
 import az.turing.cinemamasterapp.domain.repository.UserEntityRepository;
 import az.turing.cinemamasterapp.exception.AlreadyExistsException;
@@ -27,7 +27,7 @@ public class TicketSercive {
 
     private final TicketRepository repository;
     private final TicketMapper ticketMapper;
-    private final MovieRepository movieRepository;
+    private final ShowTimeRepository showTimeRepository;
     private final UserEntityRepository userRepository;
     private final SeatRepository seatRepository;
 
@@ -45,14 +45,14 @@ public class TicketSercive {
         if (repository.existsByTicketNumber(request.getTicketNumber())) {
             throw new AlreadyExistsException("Ticket has already exists with " + request.getTicketNumber());
         }
-        MovieEntity movie = movieRepository.findById(request.getMovieId())
-                .orElseThrow(() -> new NotFoundException("Movie not found with id: " + request.getMovieId()));
+        ShowTimeEntity showTime = showTimeRepository.findById(request.getShowTimeId())
+                .orElseThrow(() -> new NotFoundException("Show Time not found with id: " + request.getShowTimeId()));
 
-        UserEntity user = userRepository.findById(request.getMovieId())
-                .orElseThrow(() -> new NotFoundException("User not found with id: " + request.getMovieId()));
+        UserEntity user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + request.getUserId()));
 
         SeatEntity seat = seatRepository.findById(request.getSeatId())
-                .orElseThrow(() -> new NotFoundException("Seat not found with id: " + request.getMovieId()));
+                .orElseThrow(() -> new NotFoundException("Seat not found with id: " + request.getSeatId()));
 
         TicketEntity ticket = new TicketEntity();
 
@@ -62,7 +62,7 @@ public class TicketSercive {
         ticket.setTicketStatus(request.getTicketStatus());
         ticket.setPaymentMethod(request.getPaymentMethod());
         ticket.setUser(user);
-        ticket.setMovie(movie);
+        ticket.setShowTime(showTime);
         ticket.setSeat(seat);
         TicketEntity savedTicket = repository.save(ticket);
 
@@ -73,14 +73,14 @@ public class TicketSercive {
 
         TicketEntity ticket = getTicketById(id);
 
-        MovieEntity movie = movieRepository.findById(updateRequest.getMovieId())
-                .orElseThrow(() -> new NotFoundException("Movie not found with id:  " + updateRequest.getMovieId()));
+        ShowTimeEntity showTime = showTimeRepository.findById(updateRequest.getShowTimeId())
+                .orElseThrow(() -> new NotFoundException("Show Time not found with id: " + updateRequest.getShowTimeId()));
 
-        UserEntity user = userRepository.findById(updateRequest.getMovieId())
-                .orElseThrow(() -> new NotFoundException("User not found with id: " + updateRequest.getMovieId()));
+        UserEntity user = userRepository.findById(updateRequest.getUserId())
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + updateRequest.getUserId()));
 
         SeatEntity seat = seatRepository.findById(updateRequest.getSeatId())
-                .orElseThrow(() -> new NotFoundException("Seat not found with id: " + updateRequest.getMovieId()));
+                .orElseThrow(() -> new NotFoundException("Seat not found with id: " + updateRequest.getSeatId()));
 
         ticket.setTicketNumber(updateRequest.getTicketNumber());
         ticket.setPrice(updateRequest.getPrice());
@@ -88,7 +88,7 @@ public class TicketSercive {
         ticket.setTicketStatus(updateRequest.getTicketStatus());
         ticket.setPaymentMethod(updateRequest.getPaymentMethod());
         ticket.setUser(user);
-        ticket.setMovie(movie);
+        ticket.setShowTime(showTime);
         ticket.setSeat(seat);
         TicketEntity updatedTicket = repository.save(ticket);
 

@@ -15,7 +15,7 @@ public class TicketMapper implements EntityMapper<TicketEntity, TicketDto> {
                 .ticketStatus(ticketDto.getTicketStatus())
                 .paymentMethod(ticketDto.getPaymentMethod())
                 .user(ticketDto.getUser())
-                .movie(ticketDto.getMovie())
+                .showTime(ticketDto.getShowTime())
                 .seat(ticketDto.getSeat())
                 .build();
 
@@ -30,7 +30,7 @@ public class TicketMapper implements EntityMapper<TicketEntity, TicketDto> {
                 .ticketStatus(ticket.getTicketStatus())
                 .paymentMethod(ticket.getPaymentMethod())
                 .user(ticket.getUser())
-                .movie(ticket.getMovie())
+                .showTime(ticket.getShowTime())
                 .seat(ticket.getSeat())
                 .build();
     }
