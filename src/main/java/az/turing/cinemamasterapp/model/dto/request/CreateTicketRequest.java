@@ -47,7 +47,7 @@ public class CreateTicketRequest {
 
     @NotNull
     @Min(1)
-    private Long movieId;
+    private Long showTimeId;
 
     @NotNull
     @Min(1)

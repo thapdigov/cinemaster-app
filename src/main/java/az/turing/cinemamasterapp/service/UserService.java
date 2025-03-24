@@ -82,11 +82,11 @@ public class UserService {
     }
 
     public void deleteUserById(Long id) {
-        //soft delete
-        UserEntity user = findById(id);
-        user.setStatus(Status.DELETE);
+//        //soft delete
+        entityRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found with id:" + id))
+                .setStatus(Status.DELETE);
 
-        //hard delete
-        //    entityRepository.deleteById(id);
+//        //hard delete
+//            entityRepository.deleteById(id);
     }
 }

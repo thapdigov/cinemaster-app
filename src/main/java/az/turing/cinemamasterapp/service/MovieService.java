@@ -9,6 +9,8 @@ import az.turing.cinemamasterapp.mapper.MovieMapper;
 import az.turing.cinemamasterapp.model.dto.request.CreateMovieRequest;
 import az.turing.cinemamasterapp.model.dto.request.UpdateMovieRequest;
 import az.turing.cinemamasterapp.model.dto.response.MovieDto;
+import az.turing.cinemamasterapp.model.enums.MovieGenre;
+import az.turing.cinemamasterapp.model.enums.MovieLanguage;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,8 +36,24 @@ public class MovieService {
 
     public MovieDto findMovieByName(String movieName) {
         return movieMapper.toDto(movieRepository.findByName(movieName).
-                orElseThrow(() -> new NotFoundException("Movie not found with id " + movieName)));
+                orElseThrow(() -> new NotFoundException("Movie not found with name: " + movieName)));
     }
+
+    public MovieDto findMovieByDirector(String director) {
+        return movieMapper.toDto(movieRepository.findByDirector(director).
+                orElseThrow(() -> new NotFoundException("Movie not found with director: " + director)));
+    }
+
+    public MovieDto findMovieByGenre(MovieGenre genre) {
+        return movieMapper.toDto(movieRepository.findByGenre(genre).
+                orElseThrow(() -> new NotFoundException("Movie not found with genre:  " + genre)));
+    }
+
+    public List<MovieDto> getMovieByLanguage(MovieLanguage language) {
+        return movieRepository.findByLanguage(language)
+                .stream().map(movieMapper::toDto).collect(Collectors.toList());
+    }
+
 
     public List<MovieDto> getMovieLast24Hours(LocalDateTime now, LocalDateTime nextDay) {
         return movieRepository.findByMoviesLast24hours(now, nextDay)

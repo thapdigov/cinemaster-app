@@ -4,6 +4,7 @@ import az.turing.cinemamasterapp.model.enums.Status;
 import az.turing.cinemamasterapp.model.enums.UserCountry;
 import az.turing.cinemamasterapp.model.enums.UserGender;
 import az.turing.cinemamasterapp.model.enums.UserStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
@@ -40,7 +41,8 @@ public class UpdateUserRequest {
     @NotBlank
     private String phoneNumber;
 
-    @DateTimeFormat(fallbackPatterns = "dd/MM/yyyy, dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate birthday;
 
     @Enumerated(EnumType.STRING)

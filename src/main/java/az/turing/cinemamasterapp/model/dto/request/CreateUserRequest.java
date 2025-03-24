@@ -41,7 +41,8 @@ public class CreateUserRequest {
     @NotBlank
     private String phoneNumber;
 
-    @DateTimeFormat(fallbackPatterns = "dd/MM/yyyy, dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate birthday;
 
     @Enumerated(EnumType.STRING)

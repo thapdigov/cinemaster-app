@@ -2,7 +2,9 @@ package az.turing.cinemamasterapp.mapper;
 
 import az.turing.cinemamasterapp.domain.entity.ShowTimeEntity;
 import az.turing.cinemamasterapp.model.dto.response.ShowTimeDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ShowMapper implements EntityMapper<ShowTimeEntity, ShowTimeDto> {
     @Override
     public ShowTimeEntity toEnt(ShowTimeDto showTimeDto) {

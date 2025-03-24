@@ -62,8 +62,5 @@ public class MovieEntity extends BaseEntity {
     private MovieStatus movieStatus;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TicketEntity> tickets;
-
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ShowTimeEntity> showTimes;
 }

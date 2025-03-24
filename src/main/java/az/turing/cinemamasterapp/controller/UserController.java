@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("v1/users")
+@RequestMapping("/v1/users")
 @RequiredArgsConstructor
 @Validated
 public class UserController {
@@ -41,7 +42,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> create(@Valid @RequestBody CreateUserRequest request) {
-        return ResponseEntity.ok(userService.createUser(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
     }
 
     @PutMapping("{id}")
@@ -50,7 +51,7 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUserById(id, request));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable @Min(1) Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
