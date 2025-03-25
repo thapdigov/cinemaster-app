@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,12 +43,13 @@ public class ShowTimeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createShowTime(request));
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ShowTimeDto> update(@PathVariable @Min(1) Long id, @RequestBody UpdateShowTimeRequest request) {
         return ResponseEntity.ok(service.updateShowTime(id, request));
     }
 
-    public ResponseEntity<Void> delete(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }

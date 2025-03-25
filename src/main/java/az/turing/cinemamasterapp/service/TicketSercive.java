@@ -4,6 +4,7 @@ import az.turing.cinemamasterapp.domain.entity.SeatEntity;
 import az.turing.cinemamasterapp.domain.entity.ShowTimeEntity;
 import az.turing.cinemamasterapp.domain.entity.TicketEntity;
 import az.turing.cinemamasterapp.domain.entity.UserEntity;
+import az.turing.cinemamasterapp.domain.repository.MovieRepository;
 import az.turing.cinemamasterapp.domain.repository.SeatRepository;
 import az.turing.cinemamasterapp.domain.repository.ShowTimeRepository;
 import az.turing.cinemamasterapp.domain.repository.TicketRepository;
@@ -29,10 +30,27 @@ public class TicketSercive {
     private final TicketMapper ticketMapper;
     private final ShowTimeRepository showTimeRepository;
     private final UserEntityRepository userRepository;
+
+    private final MovieRepository movieRepository;
     private final SeatRepository seatRepository;
 
     public List<TicketDto> findAll() {
         return repository.findAll().stream().map(ticketMapper::toDto).collect(Collectors.toList());
+    }
+
+    public List<TicketDto> findAllTicketByMovieId(Long id) {
+
+        if (movieRepository.findById(id).isEmpty()) {
+            throw new NotFoundException("Movie not found with id: " + id);
+        }
+        return repository.allTicketByMovieId(id).stream().map(ticketMapper::toDto).collect(Collectors.toList());
+    }
+
+    public List<TicketDto> findAllTicketByMovieName(String name) {
+        if (movieRepository.findByName(name).isEmpty()) {
+            throw new NotFoundException("Movie not found with name: " + name);
+        }
+        return repository.allTicketByMovieName(name).stream().map(ticketMapper::toDto).collect(Collectors.toList());
     }
 
     public List<TicketDto> findTicketByPrice(Integer price) {

@@ -24,4 +24,15 @@ public class GlobalExceptionHandler {
                 .build());
 
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<GlobalResponse> notFoundExceptionHandler(NotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GlobalResponse.builder()
+                .id(UUID.randomUUID())
+                .error_code(ErrorCode.NOT_FOUND)
+                .error_message(ex.getLocalizedMessage())
+                .time(LocalDateTime.now())
+                .build());
+
+    }
 }
