@@ -79,6 +79,7 @@ public class MovieService {
     public void deleteMovieById(long id) {
         MovieEntity deletedMovie = findById(id);
         deletedMovie.setStatus(Status.DELETE);
+        movieRepository.save(deletedMovie);
     }
 
     public MovieDto updateMovie(Long id, UpdateMovieRequest request) {

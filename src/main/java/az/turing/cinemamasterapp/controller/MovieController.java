@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,12 +38,12 @@ public class MovieController {
         return ResponseEntity.ok(movieService.findAll());
     }
 
-    @GetMapping("/language/{allByLanguage}")
+    @GetMapping("/language")
     public ResponseEntity<List<MovieDto>> getAllByLanguage(@RequestParam MovieLanguage allByLanguage) {
         return ResponseEntity.ok(movieService.getMovieByLanguage(allByLanguage));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/movieId/{id}")
     public ResponseEntity<MovieDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(movieService.findMovieById(id));
     }
@@ -57,15 +58,15 @@ public class MovieController {
         return ResponseEntity.ok(movieService.findMovieByDirector(movieDirector));
     }
 
-    @GetMapping("/moviegenre/{movieGenre}")
-    public ResponseEntity<MovieDto> getByGenre(@PathVariable MovieGenre movieGenre) {
+    @GetMapping("/moviegenre")
+    public ResponseEntity<MovieDto> getByGenre(@RequestParam MovieGenre movieGenre) {
         return ResponseEntity.ok(movieService.findMovieByGenre(movieGenre));
     }
 
-    @GetMapping("/last24h/{now}/{nextDay}")
+    @GetMapping("/last24h")
     public ResponseEntity<List<MovieDto>> getByLastHours(
-            @PathVariable @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime now,
-            @PathVariable @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime nextDay) {
+            @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime now,
+            @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime nextDay) {
         return ResponseEntity.ok(movieService.getMovieLast24Hours(now, nextDay));
     }
 
@@ -74,15 +75,14 @@ public class MovieController {
     public ResponseEntity<MovieDto> create(@Valid @RequestBody CreateMovieRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body((movieService.createMovie(request)));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<MovieDto> update(@PathVariable @Min(1) Long id, @Validated @RequestBody UpdateMovieRequest request) {
+        return ResponseEntity.ok(movieService.updateMovie(id, request));
+    }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         movieService.deleteMovieById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping("{id}")
-    public ResponseEntity<MovieDto> update(@PathVariable @Min(1) Long id, @RequestBody UpdateMovieRequest request) {
-        return ResponseEntity.ok(movieService.updateMovie(id, request));
     }
 }

@@ -4,6 +4,7 @@ import az.turing.cinemamasterapp.model.enums.MovieGenre;
 import az.turing.cinemamasterapp.model.enums.MovieLanguage;
 import az.turing.cinemamasterapp.model.enums.MovieStatus;
 import az.turing.cinemamasterapp.model.enums.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -36,7 +37,8 @@ public class UpdateMovieRequest {
     @NotNull
     private Integer duration;
 
-    @DateTimeFormat(fallbackPatterns = "dd/MM/yyyy HH:mm:ss, dd-MM-yyyy HH:mm:ss ")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime releaseDate;
 
     @NotNull
