@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -36,12 +37,12 @@ public class MovieController {
         return ResponseEntity.ok(movieService.findAll());
     }
 
-    @GetMapping("/allByLanguage")
-    public ResponseEntity<List<MovieDto>> getAllByLanguage(@PathVariable MovieLanguage allByLanguage) {
+    @GetMapping("/language/{allByLanguage}")
+    public ResponseEntity<List<MovieDto>> getAllByLanguage(@RequestParam MovieLanguage allByLanguage) {
         return ResponseEntity.ok(movieService.getMovieByLanguage(allByLanguage));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<MovieDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(movieService.findMovieById(id));
     }

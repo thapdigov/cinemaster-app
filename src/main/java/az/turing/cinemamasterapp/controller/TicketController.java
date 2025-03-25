@@ -31,6 +31,16 @@ public class TicketController {
         return ResponseEntity.ok(ticketSercive.findAll());
     }
 
+    @GetMapping("/byMovie/{id}")
+    public ResponseEntity<List<TicketDto>> allTicketByMovieId(@PathVariable Long id) {
+        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieId(id));
+    }
+
+    @GetMapping("/byMovieName/{movieName}")
+    public ResponseEntity<List<TicketDto>> allTicketByMovieName(@PathVariable String movieName) {
+        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieName(movieName));
+    }
+
     @GetMapping("/ticket/{price}")
     public ResponseEntity<List<TicketDto>> getByPrice(@PathVariable Integer price) {
         return ResponseEntity.ok(ticketSercive.findTicketByPrice(price));
