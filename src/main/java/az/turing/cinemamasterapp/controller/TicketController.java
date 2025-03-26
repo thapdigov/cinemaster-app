@@ -32,8 +32,12 @@ public class TicketController {
     private final TicketSercive ticketSercive;
 
     @GetMapping("/all")
-    public ResponseEntity<List<TicketDto>> getAll() {
-        return ResponseEntity.ok(ticketSercive.findAll());
+    public ResponseEntity<Page<TicketDto>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "ticketNumber") String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        return ResponseEntity.ok(ticketSercive.findAll(pageable));
     }
 
     @GetMapping("/byMovie")
@@ -41,16 +45,21 @@ public class TicketController {
             @RequestParam Long id,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "firstName") String sort
+            @RequestParam(defaultValue = "ticketNumber") String sort
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
 
         return ResponseEntity.ok(ticketSercive.findAllTicketByMovieId(id, pageable));
     }
 
-    @GetMapping("/byMovieName/{movieName}")
-    public ResponseEntity<List<TicketDto>> allTicketByMovieName(@PathVariable String movieName) {
-        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieName(movieName));
+    @GetMapping("/byMovieName")
+    public ResponseEntity<Page<TicketDto>> allTicketByMovieName(
+            @RequestParam String movieName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "ticketNumber") String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieName(movieName,pageable));
     }
 
     @GetMapping("/ticket/{price}")
@@ -70,7 +79,7 @@ public class TicketController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         ticketSercive.delete(id);
         return ResponseEntity.noContent().build();
     }

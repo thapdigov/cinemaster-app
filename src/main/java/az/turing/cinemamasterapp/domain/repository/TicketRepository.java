@@ -19,6 +19,6 @@ public interface TicketRepository extends JpaRepository<TicketEntity, Long> {
     Page<TicketEntity> allTicketByMovieId(@Param("movieId") Long id, Pageable pageable);
 
     @Query("select t from TicketEntity t where t.showTime.movie.name =: movieName")
-    List<TicketEntity> allTicketByMovieName(@Param("movieName") String movieName);
+    Page<TicketEntity> allTicketByMovieName(@Param("movieName") String movieName,Pageable pageable);
 
 }

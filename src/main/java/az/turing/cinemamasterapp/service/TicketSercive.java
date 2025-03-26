@@ -36,8 +36,9 @@ public class TicketSercive {
     private final MovieRepository movieRepository;
     private final SeatRepository seatRepository;
 
-    public List<TicketDto> findAll() {
-        return repository.findAll().stream().map(ticketMapper::toDto).collect(Collectors.toList());
+    public Page<TicketDto> findAll(Pageable pageable) {
+        Page<TicketEntity> entityPage = repository.findAll(pageable);
+        return entityPage.map(ticketMapper::toDto);
     }
 
     public Page<TicketDto> findAllTicketByMovieId(Long id, Pageable pageable) {
@@ -49,11 +50,12 @@ public class TicketSercive {
         return entityPage.map(ticketMapper::toDto);
     }
 
-    public List<TicketDto> findAllTicketByMovieName(String name) {
+    public Page<TicketDto> findAllTicketByMovieName(String name, Pageable pageable) {
         if (movieRepository.findByName(name).isEmpty()) {
             throw new NotFoundException("Movie not found with name: " + name);
         }
-        return repository.allTicketByMovieName(name).stream().map(ticketMapper::toDto).collect(Collectors.toList());
+        Page<TicketEntity> entityPage = repository.allTicketByMovieName(name, pageable);
+        return entityPage.map(ticketMapper::toDto);
     }
 
     public List<TicketDto> findTicketByPrice(Integer price) {
