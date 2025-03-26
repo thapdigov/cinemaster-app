@@ -10,10 +10,9 @@ import az.turing.cinemamasterapp.model.dto.request.UpdateUserRequest;
 import az.turing.cinemamasterapp.model.dto.response.UserDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +21,11 @@ public class UserService {
     private final UserEntityRepository entityRepository;
     private final UserMapper userMapper;
 
-    public List<UserDto> findAll() {
-        return entityRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
+    public Page<UserDto> findAll(Pageable pageable) {
+
+        Page<UserEntity> entityPage = entityRepository.findAll(pageable);
+
+        return entityPage.map(userMapper::toDto);
     }
 
     public UserDto findUserById(Long id) {

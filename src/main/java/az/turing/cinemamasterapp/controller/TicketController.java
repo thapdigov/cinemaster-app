@@ -6,6 +6,10 @@ import az.turing.cinemamasterapp.model.dto.response.TicketDto;
 import az.turing.cinemamasterapp.service.TicketSercive;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,9 +36,16 @@ public class TicketController {
         return ResponseEntity.ok(ticketSercive.findAll());
     }
 
-    @GetMapping("/byMovie/{id}")
-    public ResponseEntity<List<TicketDto>> allTicketByMovieId(@PathVariable Long id) {
-        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieId(id));
+    @GetMapping("/byMovie")
+    public ResponseEntity<Page<TicketDto>> allTicketByMovieId(
+            @RequestParam Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "firstName") String sort
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+
+        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieId(id, pageable));
     }
 
     @GetMapping("/byMovieName/{movieName}")
