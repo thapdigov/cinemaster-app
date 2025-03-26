@@ -17,6 +17,8 @@ import az.turing.cinemamasterapp.model.dto.request.UpdateTicketRequest;
 import az.turing.cinemamasterapp.model.dto.response.TicketDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,12 +40,13 @@ public class TicketSercive {
         return repository.findAll().stream().map(ticketMapper::toDto).collect(Collectors.toList());
     }
 
-    public List<TicketDto> findAllTicketByMovieId(Long id) {
+    public Page<TicketDto> findAllTicketByMovieId(Long id, Pageable pageable) {
 
         if (movieRepository.findById(id).isEmpty()) {
             throw new NotFoundException("Movie not found with id: " + id);
         }
-        return repository.allTicketByMovieId(id).stream().map(ticketMapper::toDto).collect(Collectors.toList());
+        Page<TicketEntity> entityPage = repository.allTicketByMovieId(id, pageable);
+        return entityPage.map(ticketMapper::toDto);
     }
 
     public List<TicketDto> findAllTicketByMovieName(String name) {
