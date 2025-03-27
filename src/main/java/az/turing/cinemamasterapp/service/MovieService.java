@@ -13,11 +13,11 @@ import az.turing.cinemamasterapp.model.enums.MovieGenre;
 import az.turing.cinemamasterapp.model.enums.MovieLanguage;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +25,8 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
 
-    public List<MovieDto> findAll() {
-        return movieRepository.findAll().stream().map(movieMapper::toDto).collect(Collectors.toList());
+    public Page<MovieDto> findAll(Pageable pageable) {
+        return movieRepository.findAll(pageable).map(movieMapper::toDto);
     }
 
     public MovieDto findMovieById(Long id) {
@@ -49,15 +49,15 @@ public class MovieService {
                 orElseThrow(() -> new NotFoundException("Movie not found with genre:  " + genre)));
     }
 
-    public List<MovieDto> getMovieByLanguage(MovieLanguage language) {
-        return movieRepository.findByLanguage(language)
-                .stream().map(movieMapper::toDto).collect(Collectors.toList());
+    public Page<MovieDto> getMovieByLanguage(MovieLanguage language, Pageable pageable) {
+        return movieRepository.findByLanguage(language, pageable)
+                .map(movieMapper::toDto);
     }
 
 
-    public List<MovieDto> getMovieLast24Hours(LocalDateTime now, LocalDateTime nextDay) {
-        return movieRepository.findByMoviesLast24hours(now, nextDay)
-                .stream().map(movieMapper::toDto).collect(Collectors.toList());
+    public Page<MovieDto> getMovieLast24Hours(LocalDateTime now, LocalDateTime nextDay, Pageable pageable) {
+        return movieRepository.findByMoviesLast24hours(now, nextDay, pageable)
+                .map(movieMapper::toDto);
     }
 
     public MovieDto createMovie(CreateMovieRequest request) {

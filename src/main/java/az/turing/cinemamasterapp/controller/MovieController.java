@@ -6,9 +6,14 @@ import az.turing.cinemamasterapp.model.dto.response.MovieDto;
 import az.turing.cinemamasterapp.model.enums.MovieGenre;
 import az.turing.cinemamasterapp.model.enums.MovieLanguage;
 import az.turing.cinemamasterapp.service.MovieService;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @RequestMapping("v1/movies")
@@ -34,13 +38,35 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<MovieDto>> getAll() {
-        return ResponseEntity.ok(movieService.findAll());
+    public ResponseEntity<Page<MovieDto>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        return ResponseEntity.ok(movieService.findAll(pageable));
     }
 
     @GetMapping("/language")
-    public ResponseEntity<List<MovieDto>> getAllByLanguage(@RequestParam MovieLanguage allByLanguage) {
-        return ResponseEntity.ok(movieService.getMovieByLanguage(allByLanguage));
+    public ResponseEntity<Page<MovieDto>> getAllByLanguage(
+            @RequestParam MovieLanguage allByLanguage,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        return ResponseEntity.ok(movieService.getMovieByLanguage(allByLanguage, pageable));
+    }
+
+    @GetMapping("/last24h")
+    public ResponseEntity<Page<MovieDto>> getByLastHours(
+            @Parameter(description = "Format: dd/MM/yyyy HH:mm:ss")
+            @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime now,
+            @Parameter(description = "Format: dd/MM/yyyy HH:mm:ss")
+            @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime nextDay,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        return ResponseEntity.ok(movieService.getMovieLast24Hours(now, nextDay, pageable));
     }
 
     @GetMapping("/movieId/{id}")
@@ -63,18 +89,12 @@ public class MovieController {
         return ResponseEntity.ok(movieService.findMovieByGenre(movieGenre));
     }
 
-    @GetMapping("/last24h")
-    public ResponseEntity<List<MovieDto>> getByLastHours(
-            @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime now,
-            @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime nextDay) {
-        return ResponseEntity.ok(movieService.getMovieLast24Hours(now, nextDay));
-    }
-
 
     @PostMapping
     public ResponseEntity<MovieDto> create(@Valid @RequestBody CreateMovieRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body((movieService.createMovie(request)));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<MovieDto> update(@PathVariable @Min(1) Long id, @Validated @RequestBody UpdateMovieRequest request) {
         return ResponseEntity.ok(movieService.updateMovie(id, request));

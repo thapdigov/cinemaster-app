@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("v1/tickets")
 @RequiredArgsConstructor
@@ -40,7 +38,7 @@ public class TicketController {
         return ResponseEntity.ok(ticketSercive.findAll(pageable));
     }
 
-    @GetMapping("/byMovie")
+    @GetMapping("/byMovieId")
     public ResponseEntity<Page<TicketDto>> allTicketByMovieId(
             @RequestParam Long id,
             @RequestParam(defaultValue = "0") int page,
@@ -59,12 +57,17 @@ public class TicketController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "ticketNumber") String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieName(movieName,pageable));
+        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieName(movieName, pageable));
     }
 
-    @GetMapping("/ticket/{price}")
-    public ResponseEntity<List<TicketDto>> getByPrice(@PathVariable Integer price) {
-        return ResponseEntity.ok(ticketSercive.findTicketByPrice(price));
+    @GetMapping("/byPrice")
+    public ResponseEntity<Page<TicketDto>> getByPrice(
+            @RequestParam Integer price,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "ticketNumber") String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        return ResponseEntity.ok(ticketSercive.findTicketByPrice(price, pageable));
     }
 
 

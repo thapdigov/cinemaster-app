@@ -8,6 +8,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Valid
 @RequiredArgsConstructor
@@ -29,8 +32,12 @@ public class SeatController {
     private final SeatService seatService;
 
     @GetMapping("all")
-    public ResponseEntity<List<SeatDto>> getAll() {
-        return ResponseEntity.ok(seatService.findAll());
+    public ResponseEntity<Page<SeatDto>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "seatNumber") String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        return ResponseEntity.ok(seatService.findAll(pageable));
     }
 
     @GetMapping("/seat/{id}")
@@ -44,7 +51,7 @@ public class SeatController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SeatDto> create(@PathVariable @NotNull @Min(1) Long id,
+    public ResponseEntity<SeatDto> update(@PathVariable @NotNull @Min(1) Long id,
                                           @RequestBody UpdateSeatRequest request) {
         return ResponseEntity.ok(seatService.updateSeatById(id, request));
     }

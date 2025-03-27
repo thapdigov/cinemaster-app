@@ -13,10 +13,9 @@ import az.turing.cinemamasterapp.model.dto.request.UpdateShowTimeRequest;
 import az.turing.cinemamasterapp.model.dto.response.ShowTimeDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +27,9 @@ public class ShowTimeService {
     private final ShowMapper timeMapper;
 
 
-    public List<ShowTimeDto> findAll() {
-        return timeRepository.findAll().stream().map(timeMapper::toDto).collect(Collectors.toList());
+    public Page<ShowTimeDto> findAll(Pageable pageable) {
+        Page<ShowTimeEntity> entityPage = timeRepository.findAll(pageable);
+        return entityPage.map(timeMapper::toDto);
     }
 
     public ShowTimeDto findShowById(Long id) {
