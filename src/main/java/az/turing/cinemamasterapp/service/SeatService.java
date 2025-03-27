@@ -11,10 +11,9 @@ import az.turing.cinemamasterapp.model.dto.request.UpdateSeatRequest;
 import az.turing.cinemamasterapp.model.dto.response.SeatDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +23,8 @@ public class SeatService {
     private final CinemaHallRepository hallRepository;
     private final SeatMapper seatMapper;
 
-    public List<SeatDto> findAll() {
-        return repository.findAll().stream().map(seatMapper::toDto).collect(Collectors.toList());
+    public Page<SeatDto> findAll(Pageable pageable) {
+        return repository.findAll(pageable).map(seatMapper::toDto);
     }
 
 

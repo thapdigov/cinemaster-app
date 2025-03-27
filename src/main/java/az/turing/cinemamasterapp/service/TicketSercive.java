@@ -58,10 +58,8 @@ public class TicketSercive {
         return entityPage.map(ticketMapper::toDto);
     }
 
-    public List<TicketDto> findTicketByPrice(Integer price) {
-        return repository.findAll().stream()
-                .filter(ticket -> ticket.getPrice() <= price)
-                .map(ticketMapper::toDto).collect(Collectors.toList());
+    public Page<TicketDto> findTicketByPrice(Integer price, Pageable pageable) {
+        return repository.findByPriceLessThanEqual(price, pageable).map(ticketMapper::toDto);
     }
 
     public TicketDto create(CreateTicketRequest request) {

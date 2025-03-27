@@ -10,10 +10,11 @@ import az.turing.cinemamasterapp.model.dto.request.UpdateHallRequest;
 import az.turing.cinemamasterapp.model.dto.response.HallDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +24,9 @@ public class HallService {
     private final HallMapper hallMapper;
 
 
-    public List<HallDto> findAll() {
-        return hallRepository.findAll().stream().map(hallMapper::toDto).collect(Collectors.toList());
+    public Page<HallDto> findAll(int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        return hallRepository.findAll(pageable).map(hallMapper::toDto);
     }
 
     public HallDto findHallById(Long id) {
