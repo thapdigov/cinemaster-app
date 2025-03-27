@@ -14,7 +14,9 @@ import az.turing.cinemamasterapp.model.dto.response.ShowTimeDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,7 +29,8 @@ public class ShowTimeService {
     private final ShowMapper timeMapper;
 
 
-    public Page<ShowTimeDto> findAll(Pageable pageable) {
+    public Page<ShowTimeDto> findAll(int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         Page<ShowTimeEntity> entityPage = timeRepository.findAll(pageable);
         return entityPage.map(timeMapper::toDto);
     }

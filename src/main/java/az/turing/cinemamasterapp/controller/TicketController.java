@@ -7,9 +7,6 @@ import az.turing.cinemamasterapp.service.TicketSercive;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,8 +31,7 @@ public class TicketController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "ticketNumber") String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return ResponseEntity.ok(ticketSercive.findAll(pageable));
+        return ResponseEntity.ok(ticketSercive.findAll(page, size, sort));
     }
 
     @GetMapping("/byMovieId")
@@ -43,11 +39,8 @@ public class TicketController {
             @RequestParam Long id,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "ticketNumber") String sort
-    ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-
-        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieId(id, pageable));
+            @RequestParam(defaultValue = "ticketNumber") String sort) {
+        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieId(id, page, size, sort));
     }
 
     @GetMapping("/byMovieName")
@@ -56,8 +49,7 @@ public class TicketController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "ticketNumber") String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieName(movieName, pageable));
+        return ResponseEntity.ok(ticketSercive.findAllTicketByMovieName(movieName, page, size, sort));
     }
 
     @GetMapping("/byPrice")
@@ -66,8 +58,7 @@ public class TicketController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "ticketNumber") String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return ResponseEntity.ok(ticketSercive.findTicketByPrice(price, pageable));
+        return ResponseEntity.ok(ticketSercive.findTicketByPrice(price, page, size, sort));
     }
 
 

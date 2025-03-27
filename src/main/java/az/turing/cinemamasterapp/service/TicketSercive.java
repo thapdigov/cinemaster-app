@@ -18,11 +18,10 @@ import az.turing.cinemamasterapp.model.dto.response.TicketDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,29 +35,32 @@ public class TicketSercive {
     private final MovieRepository movieRepository;
     private final SeatRepository seatRepository;
 
-    public Page<TicketDto> findAll(Pageable pageable) {
-        Page<TicketEntity> entityPage = repository.findAll(pageable);
-        return entityPage.map(ticketMapper::toDto);
+    public Page<TicketDto> findAll(int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        return repository.findAll(pageable).map(ticketMapper::toDto);
     }
 
-    public Page<TicketDto> findAllTicketByMovieId(Long id, Pageable pageable) {
+    public Page<TicketDto> findAllTicketByMovieId(Long id, int page, int size, String sort) {
 
         if (movieRepository.findById(id).isEmpty()) {
             throw new NotFoundException("Movie not found with id: " + id);
         }
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         Page<TicketEntity> entityPage = repository.allTicketByMovieId(id, pageable);
         return entityPage.map(ticketMapper::toDto);
     }
 
-    public Page<TicketDto> findAllTicketByMovieName(String name, Pageable pageable) {
+    public Page<TicketDto> findAllTicketByMovieName(String name, int page, int size, String sort) {
         if (movieRepository.findByName(name).isEmpty()) {
             throw new NotFoundException("Movie not found with name: " + name);
         }
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         Page<TicketEntity> entityPage = repository.allTicketByMovieName(name, pageable);
         return entityPage.map(ticketMapper::toDto);
     }
 
-    public Page<TicketDto> findTicketByPrice(Integer price, Pageable pageable) {
+    public Page<TicketDto> findTicketByPrice(Integer price,int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         return repository.findByPriceLessThanEqual(price, pageable).map(ticketMapper::toDto);
     }
 

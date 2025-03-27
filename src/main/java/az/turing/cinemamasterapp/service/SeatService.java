@@ -12,7 +12,9 @@ import az.turing.cinemamasterapp.model.dto.response.SeatDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +25,8 @@ public class SeatService {
     private final CinemaHallRepository hallRepository;
     private final SeatMapper seatMapper;
 
-    public Page<SeatDto> findAll(Pageable pageable) {
+    public Page<SeatDto> findAll(int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         return repository.findAll(pageable).map(seatMapper::toDto);
     }
 

@@ -36,10 +36,7 @@ public class ShowTimeController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "startTime") String sort) {
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-
-        return ResponseEntity.ok(service.findAll(pageable));
+        return ResponseEntity.ok(service.findAll(page, size, sort));
     }
 
     @GetMapping("/showtime/{id}")

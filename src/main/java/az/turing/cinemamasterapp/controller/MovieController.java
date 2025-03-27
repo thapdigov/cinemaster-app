@@ -11,9 +11,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +39,7 @@ public class MovieController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "name") String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return ResponseEntity.ok(movieService.findAll(pageable));
+        return ResponseEntity.ok(movieService.findAll(page, size, sort));
     }
 
     @GetMapping("/language")
@@ -52,8 +48,7 @@ public class MovieController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "name") String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return ResponseEntity.ok(movieService.getMovieByLanguage(allByLanguage, pageable));
+        return ResponseEntity.ok(movieService.getMovieByLanguage(allByLanguage, page, size, sort));
     }
 
     @GetMapping("/last24h")
@@ -65,8 +60,7 @@ public class MovieController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "name") String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return ResponseEntity.ok(movieService.getMovieLast24Hours(now, nextDay, pageable));
+        return ResponseEntity.ok(movieService.getMovieLast24Hours(now, nextDay, page, size, sort));
     }
 
     @GetMapping("/movieId/{id}")

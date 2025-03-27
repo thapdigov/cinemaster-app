@@ -14,7 +14,9 @@ import az.turing.cinemamasterapp.model.enums.MovieLanguage;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,7 +27,8 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
 
-    public Page<MovieDto> findAll(Pageable pageable) {
+    public Page<MovieDto> findAll(int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
         return movieRepository.findAll(pageable).map(movieMapper::toDto);
     }
 
@@ -49,13 +52,16 @@ public class MovieService {
                 orElseThrow(() -> new NotFoundException("Movie not found with genre:  " + genre)));
     }
 
-    public Page<MovieDto> getMovieByLanguage(MovieLanguage language, Pageable pageable) {
+    public Page<MovieDto> getMovieByLanguage(MovieLanguage language, int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
         return movieRepository.findByLanguage(language, pageable)
                 .map(movieMapper::toDto);
     }
 
 
-    public Page<MovieDto> getMovieLast24Hours(LocalDateTime now, LocalDateTime nextDay, Pageable pageable) {
+    public Page<MovieDto> getMovieLast24Hours(LocalDateTime now, LocalDateTime nextDay,
+                                              int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
         return movieRepository.findByMoviesLast24hours(now, nextDay, pageable)
                 .map(movieMapper::toDto);
     }
