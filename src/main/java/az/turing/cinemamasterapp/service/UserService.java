@@ -2,8 +2,10 @@ package az.turing.cinemamasterapp.service;
 
 import az.turing.cinemamasterapp.domain.entity.UserEntity;
 import az.turing.cinemamasterapp.domain.repository.UserEntityRepository;
+import az.turing.cinemamasterapp.exception.AlreadyExistsException;
 import az.turing.cinemamasterapp.exception.InvalidPasswordConfirmationException;
 import az.turing.cinemamasterapp.exception.NotFoundException;
+import az.turing.cinemamasterapp.exception.TimeException;
 import az.turing.cinemamasterapp.mapper.UserMapper;
 import az.turing.cinemamasterapp.model.dto.request.CreateUserRequest;
 import az.turing.cinemamasterapp.model.dto.request.UpdateUserRequest;
@@ -13,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -35,8 +39,16 @@ public class UserService {
 
     public UserDto createUser(CreateUserRequest request) {
 
+        if (entityRepository.existsByFirstNameAndLastName(request.getFirstName(), request.getLastName())) {
+            throw new AlreadyExistsException("User has already exists with : " + request.getFirstName() + " "
+                    + request.getLastName());
+        }
+
         if (!(request.getPassword().equals(request.getConfirmPassword()))) {
             throw new InvalidPasswordConfirmationException("Password and confirmPassword is not the same!");
+        }
+        if (request.getBirthday().isAfter(LocalDate.now())) {
+            throw new TimeException("Birthday is not right!");
         }
 
         UserEntity user = new UserEntity();
@@ -63,6 +75,15 @@ public class UserService {
         if (!(request.getPassword().equals(request.getConfirmPassword()))) {
             throw new InvalidPasswordConfirmationException("Password and confirmPassword is not the same!");
         }
+
+        if (entityRepository.existsByFirstNameAndLastName(request.getFirstName(), request.getLastName())) {
+            throw new AlreadyExistsException("User has already exists with : " + request.getFirstName() + " "
+                    + request.getLastName());
+        }
+
+        if (request.getBirthday().isAfter(LocalDate.now())) {
+            throw new TimeException("Birthday is not right!");
+        }
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
@@ -85,8 +106,10 @@ public class UserService {
 
     public void deleteUserById(Long id) {
 //        //soft delete
-        entityRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found with id:" + id))
-                .setStatus(Status.DELETE);
+        UserEntity deletedEntity = entityRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("User not found with id:" + id));
+        deletedEntity.setStatus(Status.DELETE);
+        entityRepository.save(deletedEntity);
 
 //        //hard delete
 //            entityRepository.deleteById(id);

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -39,4 +40,9 @@ public class UserDto {
     private Status status;
 
     private UserCountry country;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
 }
