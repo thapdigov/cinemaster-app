@@ -16,5 +16,7 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
 
     Page<UserEntity> findAll(Pageable pageable);
 
+    boolean existsByFirstNameAndLastName(String name, String surname);
+
 
 }

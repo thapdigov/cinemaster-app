@@ -35,6 +35,8 @@ public class UserMapper implements EntityMapper<UserEntity, UserDto> {
                 .userStatus(userEntity.getUserStatus())
                 .status(userEntity.getStatus())
                 .country(userEntity.getCountry())
+                .updatedAt(userEntity.getUpdatedAt())
+                .createdAt(userEntity.getCreatedAt())
                 .build();
     }
 }
