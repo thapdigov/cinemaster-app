@@ -37,19 +37,33 @@ public class MovieService {
                 orElseThrow(() -> new NotFoundException("Movie not found with id " + id)));
     }
 
-    public MovieDto findMovieByName(String movieName) {
-        return movieMapper.toDto(movieRepository.findByName(movieName).
-                orElseThrow(() -> new NotFoundException("Movie not found with name: " + movieName)));
+    public Page<MovieDto> findMovieByName(String movieName, int page, int size, String sort) {
+        Pageable pagable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        Page<MovieEntity> movieEntityPage = movieRepository.findListByName(movieName, pagable);
+
+        if (movieEntityPage.isEmpty()) {
+            throw new NotFoundException("Movie not found with name: " + movieName);
+        }
+        return movieEntityPage.map(movieMapper::toDto);
     }
 
-    public MovieDto findMovieByDirector(String director) {
-        return movieMapper.toDto(movieRepository.findByDirector(director).
-                orElseThrow(() -> new NotFoundException("Movie not found with director: " + director)));
+    public Page<MovieDto> findMovieByDirector(String director, int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        Page<MovieEntity> entityPage = movieRepository.findByDirector(director, pageable);
+        if (entityPage.isEmpty()) {
+            throw new NotFoundException("Movie not found with name: " + director);
+        }
+        return entityPage.map(movieMapper::toDto);
     }
 
-    public MovieDto findMovieByGenre(MovieGenre genre) {
-        return movieMapper.toDto(movieRepository.findByGenre(genre).
-                orElseThrow(() -> new NotFoundException("Movie not found with genre:  " + genre)));
+    public Page<MovieDto> findMovieByGenre(MovieGenre genre, int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        Page<MovieEntity> entityPage = movieRepository.findByGenre(genre, pageable);
+        if (entityPage.isEmpty()) {
+            throw new NotFoundException("Movie not found with name: " + genre);
+        }
+
+        return entityPage.map(movieMapper::toDto);
     }
 
     public Page<MovieDto> getMovieByLanguage(MovieLanguage language, int page, int size, String sort) {

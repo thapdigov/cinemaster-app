@@ -22,10 +22,13 @@ public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
 
     Optional<MovieEntity> findByName(String movieName);
 
-    Optional<MovieEntity> findByDirector(String director);
+    Page<MovieEntity> findListByName(String movieName, Pageable pageable);
 
-    Optional<MovieEntity> findByGenre(MovieGenre movieGenre);
+    Page<MovieEntity> findByDirector(String director, Pageable pageable);
+
+    Page<MovieEntity> findByGenre(MovieGenre movieGenre, Pageable pageable);
 
     @Query("SELECT m FROM MovieEntity m WHERE m.releaseDate BETWEEN :now AND :nextDay")
-    Page<MovieEntity> findByMoviesLast24hours(@Param("now") LocalDateTime now, @Param("nextDay") LocalDateTime nextDay,Pageable pageable);
+    Page<MovieEntity> findByMoviesLast24hours
+            (@Param("now") LocalDateTime now, @Param("nextDay") LocalDateTime nextDay, Pageable pageable);
 }
