@@ -35,4 +35,15 @@ public class GlobalExceptionHandler {
                 .build());
 
     }
+
+    @ExceptionHandler(TimeException.class)
+    public ResponseEntity<GlobalResponse> timeExceptionHandler(TimeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(GlobalResponse.builder()
+                        .id(UUID.randomUUID())
+                        .error_code(ErrorCode.TIME_OUT)
+                        .error_message(ex.getLocalizedMessage())
+                        .time(LocalDateTime.now())
+                        .build());
+    }
 }

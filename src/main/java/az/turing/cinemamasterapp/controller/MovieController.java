@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("v1/movies")
 @RequiredArgsConstructor
-@Valid
+@Validated
 public class MovieController {
     private final MovieService movieService;
 
@@ -52,7 +52,7 @@ public class MovieController {
     }
 
     @GetMapping("/last24h")
-    public ResponseEntity<Page<MovieDto>> getByLastHours(
+    public ResponseEntity<Page<MovieDto>> getByLast24Hours(
             @Parameter(description = "Format: dd/MM/yyyy HH:mm:ss")
             @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime now,
             @Parameter(description = "Format: dd/MM/yyyy HH:mm:ss")
@@ -68,19 +68,32 @@ public class MovieController {
         return ResponseEntity.ok(movieService.findMovieById(id));
     }
 
-    @GetMapping("/moviename/{movieName}")
-    public ResponseEntity<MovieDto> getByName(@PathVariable String movieName) {
-        return ResponseEntity.ok(movieService.findMovieByName(movieName));
+    @GetMapping("/moviename")
+    public ResponseEntity<Page<MovieDto>> getByName(
+            @RequestParam String movieName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "name") String sort
+    ) {
+        return ResponseEntity.ok(movieService.findMovieByName(movieName, page, size, sort));
     }
 
-    @GetMapping("/moviedirector/{movieDirector}")
-    public ResponseEntity<MovieDto> getByDirector(@PathVariable String movieDirector) {
-        return ResponseEntity.ok(movieService.findMovieByDirector(movieDirector));
+    @GetMapping("/moviedirector")
+    public ResponseEntity<Page<MovieDto>> getByDirector(
+            @RequestParam String movieDirector,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "name") String sort) {
+        return ResponseEntity.ok(movieService.findMovieByDirector(movieDirector,page,size,sort));
     }
 
     @GetMapping("/moviegenre")
-    public ResponseEntity<MovieDto> getByGenre(@RequestParam MovieGenre movieGenre) {
-        return ResponseEntity.ok(movieService.findMovieByGenre(movieGenre));
+    public ResponseEntity<Page<MovieDto>> getByGenre(
+            @RequestParam MovieGenre movieGenre,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "name") String sort) {
+        return ResponseEntity.ok(movieService.findMovieByGenre(movieGenre, page, size, sort));
     }
 
 
@@ -90,7 +103,7 @@ public class MovieController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MovieDto> update(@PathVariable @Min(1) Long id, @Validated @RequestBody UpdateMovieRequest request) {
+    public ResponseEntity<MovieDto> update(@PathVariable @Min(1) Long id, @Valid @RequestBody UpdateMovieRequest request) {
         return ResponseEntity.ok(movieService.updateMovie(id, request));
     }
 
