@@ -2,6 +2,7 @@ package az.turing.cinemamasterapp.model.dto.response;
 
 import az.turing.cinemamasterapp.model.enums.HallStatus;
 import az.turing.cinemamasterapp.model.enums.HallType;
+import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,6 @@ public class HallDto {
     private HallType type;
 
     private HallStatus hallStatus;
+
+    private Status status;
 }

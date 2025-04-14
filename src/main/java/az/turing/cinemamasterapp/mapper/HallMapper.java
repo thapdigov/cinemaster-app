@@ -23,6 +23,7 @@ public class HallMapper implements EntityMapper<CinemaHallEntity, HallDto> {
                 .capacity(cinemaHallEntity.getCapacity())
                 .type(cinemaHallEntity.getType())
                 .hallStatus(cinemaHallEntity.getHallStatus())
+                .status(cinemaHallEntity.getStatus())
                 .build();
     }
 }

@@ -84,7 +84,7 @@ public class MovieController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "name") String sort) {
-        return ResponseEntity.ok(movieService.findMovieByDirector(movieDirector,page,size,sort));
+        return ResponseEntity.ok(movieService.findMovieByDirector(movieDirector, page, size, sort));
     }
 
     @GetMapping("/moviegenre")

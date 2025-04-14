@@ -37,6 +37,7 @@ public class HallService {
     public void deleteHall(Long id) {
         CinemaHallEntity hallEntity = findById(id);
         hallEntity.setStatus(Status.DELETE);
+        hallRepository.save(hallEntity);
     }
 
 
