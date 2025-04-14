@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("v1/halls")
+@RequestMapping("/v1/halls")
 public class HallController {
 
     private final HallService hallService;
@@ -45,7 +46,7 @@ public class HallController {
 
     @PostMapping
     public ResponseEntity<HallDto> create(@RequestBody @Valid CreateHallRequest request) {
-        return ResponseEntity.ok(hallService.createHall(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(hallService.createHall(request));
     }
 
     @PutMapping("/{id}")
@@ -54,7 +55,7 @@ public class HallController {
         return ResponseEntity.ok(hallService.update(id, request));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable @NotNull @Min(1) Long id) {
         hallService.deleteHall(id);
         return ResponseEntity.noContent().build();
