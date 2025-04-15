@@ -1,6 +1,7 @@
 package az.turing.cinemamasterapp.mapper;
 
 import az.turing.cinemamasterapp.domain.entity.UserEntity;
+import az.turing.cinemamasterapp.model.dto.request.CreateUserRequest;
 import az.turing.cinemamasterapp.model.dto.response.UserDto;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,20 @@ public class UserMapper implements EntityMapper<UserEntity, UserDto> {
                 .country(userEntity.getCountry())
                 .updatedAt(userEntity.getUpdatedAt())
                 .createdAt(userEntity.getCreatedAt())
+                .build();
+    }
+    public UserEntity toEnt(CreateUserRequest request) {
+        return UserEntity.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .phoneNumber(request.getPhoneNumber())
+                .birthday(request.getBirthday())
+                .gender(request.getGender())
+                .status(request.getStatus())
+                .userStatus(request.getUserStatus())
+                .country(request.getCountry())
                 .build();
     }
 }

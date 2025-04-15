@@ -14,12 +14,14 @@ import az.turing.cinemamasterapp.model.enums.MovieLanguage;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +31,9 @@ public class MovieService {
 
     public Page<MovieDto> findAll(int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return movieRepository.findAll(pageable).map(movieMapper::toDto);
+        List<MovieDto> dtoList = movieRepository.findAll(pageable).stream().
+                filter(movieEntity -> movieEntity.getStatus() != Status.DELETE).map(movieMapper::toDto).toList();
+        return new PageImpl<>(dtoList, pageable, dtoList.size());
     }
 
     public MovieDto findMovieById(Long id) {
@@ -38,13 +42,15 @@ public class MovieService {
     }
 
     public Page<MovieDto> findMovieByName(String movieName, int page, int size, String sort) {
-        Pageable pagable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        Page<MovieEntity> movieEntityPage = movieRepository.findListByName(movieName, pagable);
-
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        Page<MovieEntity> movieEntityPage = movieRepository.findListByName(movieName, pageable);
         if (movieEntityPage.isEmpty()) {
             throw new NotFoundException("Movie not found with name: " + movieName);
         }
-        return movieEntityPage.map(movieMapper::toDto);
+
+        List<MovieDto> dtoList = movieEntityPage.stream().
+                filter(movieEntity -> movieEntity.getStatus() != Status.DELETE).map(movieMapper::toDto).toList();
+        return new PageImpl<>(dtoList, pageable, dtoList.size());
     }
 
     public Page<MovieDto> findMovieByDirector(String director, int page, int size, String sort) {
@@ -53,7 +59,9 @@ public class MovieService {
         if (entityPage.isEmpty()) {
             throw new NotFoundException("Movie not found with name: " + director);
         }
-        return entityPage.map(movieMapper::toDto);
+        List<MovieDto> dtoList = entityPage.stream().
+                filter(movieEntity -> movieEntity.getStatus() != Status.DELETE).map(movieMapper::toDto).toList();
+        return new PageImpl<>(dtoList, pageable, dtoList.size());
     }
 
     public Page<MovieDto> findMovieByGenre(MovieGenre genre, int page, int size, String sort) {
@@ -62,22 +70,27 @@ public class MovieService {
         if (entityPage.isEmpty()) {
             throw new NotFoundException("Movie not found with name: " + genre);
         }
-
-        return entityPage.map(movieMapper::toDto);
+        List<MovieDto> dtoList = entityPage.stream().
+                filter(movieEntity -> movieEntity.getStatus() != Status.DELETE).map(movieMapper::toDto).toList();
+        return new PageImpl<>(dtoList, pageable, dtoList.size());
     }
 
     public Page<MovieDto> getMovieByLanguage(MovieLanguage language, int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return movieRepository.findByLanguage(language, pageable)
-                .map(movieMapper::toDto);
+        Page<MovieEntity> entityPage = movieRepository.findByLanguage(language, pageable);
+        List<MovieDto> dtoList = entityPage.stream().
+                filter(movieEntity -> movieEntity.getStatus() != Status.DELETE).map(movieMapper::toDto).toList();
+        return new PageImpl<>(dtoList, pageable, dtoList.size());
     }
 
 
     public Page<MovieDto> getMovieLast24Hours(LocalDateTime now, LocalDateTime nextDay,
                                               int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return movieRepository.findByMoviesLast24hours(now, nextDay, pageable)
-                .map(movieMapper::toDto);
+        Page<MovieEntity> entityPage = movieRepository.findByMoviesLast24hours(now, nextDay, pageable);
+        List<MovieDto> dtoList = entityPage.stream().
+                filter(movieEntity -> movieEntity.getStatus() != Status.DELETE).map(movieMapper::toDto).toList();
+        return new PageImpl<>(dtoList, pageable, dtoList.size());
     }
 
     public MovieDto createMovie(CreateMovieRequest request) {
@@ -90,7 +103,6 @@ public class MovieService {
                 request.getName(), request.getDescription(), request.getDirector())) {
             throw new AlreadyExistsException("The Movie already is exists!!");
         }
-
         MovieEntity savedMovie = movieRepository.save(movieMapper.toEnt(request));
         return movieMapper.toDto(savedMovie);
     }
@@ -103,7 +115,11 @@ public class MovieService {
     }
 
     public MovieDto updateMovie(Long id, UpdateMovieRequest request) {
+
         MovieEntity movie = findById(id);
+        if (request.getReleaseDate().isBefore(LocalDateTime.now())) {
+            throw new TimeException("Movie relase date is not right!");
+        }
         movie.setName(request.getName());
         movie.setDescription(request.getDescription());
         movie.setGenre(request.getGenre());

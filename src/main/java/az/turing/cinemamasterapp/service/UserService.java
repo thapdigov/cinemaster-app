@@ -13,12 +13,14 @@ import az.turing.cinemamasterapp.model.dto.response.UserDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +32,11 @@ public class UserService {
     public Page<UserDto> findAll(int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         Page<UserEntity> entityPage = entityRepository.findAll(pageable);
-        return entityPage.map(userMapper::toDto);
+
+        List<UserDto> dtoList = entityPage
+                .filter(userEntity -> userEntity.getStatus() != Status.DELETE).map(userMapper::toDto).toList();
+
+        return new PageImpl<>(dtoList, pageable, dtoList.size());
     }
 
     public UserDto findUserById(Long id) {
@@ -51,21 +57,8 @@ public class UserService {
         if (request.getBirthday().isAfter(LocalDate.now())) {
             throw new TimeException("Birthday is not right!");
         }
-
-        UserEntity user = new UserEntity();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setPhoneNumber(request.getPhoneNumber());
-        user.setBirthday(request.getBirthday());
-        user.setGender(request.getGender());
-        user.setStatus(request.getStatus());
-        user.setUserStatus(request.getUserStatus());
-        user.setCountry(request.getCountry());
-
+        UserEntity user = userMapper.toEnt(request);
         UserEntity savedUser = entityRepository.save(user);
-
         return userMapper.toDto(savedUser);
     }
 
@@ -106,13 +99,8 @@ public class UserService {
     }
 
     public void deleteUserById(Long id) {
-//        //soft delete
-        UserEntity deletedEntity = entityRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("User not found with id:" + id));
+        UserEntity deletedEntity = findById(id);
         deletedEntity.setStatus(Status.DELETE);
         entityRepository.save(deletedEntity);
-
-//        //hard delete
-//            entityRepository.deleteById(id);
     }
 }

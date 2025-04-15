@@ -26,7 +26,8 @@ public class HallService {
 
     public Page<HallDto> findAll(int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return hallRepository.findAll(pageable).map(hallMapper::toDto);
+        return (Page<HallDto>) hallRepository.findAll(pageable).filter(hall -> hall.getStatus() != Status.DELETE)
+                .map(hallMapper::toDto);
     }
 
     public HallDto findHallById(Long id) {
