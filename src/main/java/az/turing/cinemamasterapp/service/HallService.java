@@ -11,10 +11,13 @@ import az.turing.cinemamasterapp.model.dto.response.HallDto;
 import az.turing.cinemamasterapp.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +29,10 @@ public class HallService {
 
     public Page<HallDto> findAll(int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        return (Page<HallDto>) hallRepository.findAll(pageable).filter(hall -> hall.getStatus() != Status.DELETE)
-                .map(hallMapper::toDto);
+        Page<CinemaHallEntity> entityPage = hallRepository.findAll(pageable);
+        List<HallDto> dtoList = entityPage.stream().filter(
+                cinemaHallEntity -> cinemaHallEntity.getStatus() != Status.DELETE).map(hallMapper::toDto).toList();
+        return new PageImpl<>(dtoList, pageable, dtoList.size());
     }
 
     public HallDto findHallById(Long id) {
@@ -47,16 +52,8 @@ public class HallService {
         if (hallRepository.existsByName(request.getName())) {
             throw new AlreadyExistsException("Cinema Hall has already exists with name: " + request.getName());
         }
-
-        CinemaHallEntity cinemaHall = new CinemaHallEntity();
-        cinemaHall.setName(request.getName());
-        cinemaHall.setCapacity(request.getCapacity());
-        cinemaHall.setType(request.getType());
-        cinemaHall.setHallStatus(request.getHallStatus());
-        cinemaHall.setStatus(request.getStatus());
-
+        CinemaHallEntity cinemaHall = hallMapper.toEnt(request);
         CinemaHallEntity savedHall = hallRepository.save(cinemaHall);
-
         return hallMapper.toDto(savedHall);
     }
 
@@ -70,7 +67,6 @@ public class HallService {
         hall.setStatus(request.getStatus());
 
         CinemaHallEntity updatedHall = hallRepository.save(hall);
-
         return hallMapper.toDto(updatedHall);
     }
 
