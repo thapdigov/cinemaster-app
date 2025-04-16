@@ -27,10 +27,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ent_seq")
-    @SequenceGenerator(name = "ent_seq", sequenceName = "sequence_name", allocationSize = 1)
-    private Long id;
+
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)

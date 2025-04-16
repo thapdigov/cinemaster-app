@@ -1,6 +1,7 @@
 package az.turing.cinemamasterapp.mapper;
 
 import az.turing.cinemamasterapp.domain.entity.SeatEntity;
+import az.turing.cinemamasterapp.model.dto.response.SeatCodeDto;
 import az.turing.cinemamasterapp.model.dto.response.SeatDto;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ public class SeatMapper implements EntityMapper<SeatEntity, SeatDto> {
                 .seatNumber(seatDto.getSeatNumber())
                 .type(seatDto.getType())
                 .seatStatus(seatDto.getSeatStatus())
-                .cinemaHall(seatDto.getCinemaHall())
+                //  .cinemaHall(seatDto.getCinemaId())
                 .build();
     }
 
@@ -24,7 +25,12 @@ public class SeatMapper implements EntityMapper<SeatEntity, SeatDto> {
                 .seatNumber(seatEntity.getSeatNumber())
                 .type(seatEntity.getType())
                 .seatStatus(seatEntity.getSeatStatus())
-                .cinemaHall(seatEntity.getCinemaHall())
+                .status(seatEntity.getStatus())
+                .cinemaId(seatEntity.getCinemaHall().getId())
                 .build();
+    }
+
+    public SeatCodeDto codeDto(SeatEntity seat) {
+        return new SeatCodeDto(seat.getRow().name(), seat.getSeatNumber());
     }
 }

@@ -8,7 +8,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +33,11 @@ import java.util.List;
 @SuperBuilder
 public class CinemaHallEntity extends BaseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cinema_seq")
+    @SequenceGenerator(name = "cinema_seq", sequenceName = "cinema_sequence", allocationSize = 1)
+    private Long id;
+
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -43,9 +52,9 @@ public class CinemaHallEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private HallStatus hallStatus;
 
-    @OneToMany(mappedBy = "cinemaHall", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cinemaHall", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<SeatEntity> seats;
 
-    @OneToMany(mappedBy = "cinemaHall", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cinemaHall", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ShowTimeEntity> showTimes;
 }
