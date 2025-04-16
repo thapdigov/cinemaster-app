@@ -1,6 +1,7 @@
 package az.turing.cinemamasterapp.model.dto.response;
 
 import az.turing.cinemamasterapp.domain.entity.CinemaHallEntity;
+import az.turing.cinemamasterapp.model.enums.SeatRow;
 import az.turing.cinemamasterapp.model.enums.SeatStatus;
 import az.turing.cinemamasterapp.model.enums.SeatType;
 import az.turing.cinemamasterapp.model.enums.Status;
@@ -15,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class SeatDto {
 
-    private String row;
+    private SeatRow row;
 
     private Integer seatNumber;
 
@@ -23,7 +24,7 @@ public class SeatDto {
 
     private SeatStatus seatStatus;
 
-    private CinemaHallEntity cinemaHall;
+    private Long cinemaId;
 
     private Status status;
 }

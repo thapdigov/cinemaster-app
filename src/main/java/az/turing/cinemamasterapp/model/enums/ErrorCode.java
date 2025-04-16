@@ -5,4 +5,5 @@ public final class ErrorCode {
 
     public static final String NOT_FOUND = "not_found";
     public static final String TIME_OUT = "time_false";
+    public static final String FALSE_NUMBER = "false_number";
 }

@@ -1,5 +1,6 @@
 package az.turing.cinemamasterapp.domain.entity;
 
+import az.turing.cinemamasterapp.model.enums.SeatRow;
 import az.turing.cinemamasterapp.model.enums.SeatStatus;
 import az.turing.cinemamasterapp.model.enums.SeatType;
 import jakarta.persistence.CascadeType;
@@ -8,9 +9,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,8 +34,14 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class SeatEntity extends BaseEntity {
 
-    @Column(name = "row", nullable = false)
-    private String row;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seat_seq")
+    @SequenceGenerator(name = "seat_seq", sequenceName = "seat_sequence", allocationSize = 1)
+    private Long id;
+
+    @Column(name = "row",nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SeatRow row;
 
     @Column(name = "seat_number", nullable = false)
     private Integer seatNumber;

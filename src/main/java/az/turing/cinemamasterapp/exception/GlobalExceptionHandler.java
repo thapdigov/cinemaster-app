@@ -46,4 +46,14 @@ public class GlobalExceptionHandler {
                         .time(LocalDateTime.now())
                         .build());
     }
+    @ExceptionHandler(InvalidNumberException.class)
+    public ResponseEntity<GlobalResponse> invalidNumberExceptionHandler(InvalidNumberException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(GlobalResponse.builder()
+                        .id(UUID.randomUUID())
+                        .error_code(ErrorCode.FALSE_NUMBER)
+                        .error_message(ex.getLocalizedMessage())
+                        .time(LocalDateTime.now())
+                        .build());
+    }
 }
